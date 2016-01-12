@@ -1,1 +1,11 @@
 C:\Users\asus\Desktop\Poker\bin\Debug\Poker.exe.config
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\bin\Debug\Poker.exe.config
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\bin\Debug\Poker.exe
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\bin\Debug\Poker.pdb
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.AddChips.resources
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.Form1.resources
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.Properties.Resources.resources
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.exe
+C:\Users\asus\Documents\GitHub\Teamwork-Project.git\branches\ProjectBranch\Poker\obj\Debug\Poker.pdb
