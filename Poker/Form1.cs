@@ -19,7 +19,6 @@ namespace Poker
     {
         #region Variables
         ProgressBar asd = new ProgressBar();
-        public int Nm;
         private Panel pPanel = new Panel();
         private Panel b1Panel = new Panel();
         private Panel b2Panel = new Panel();
@@ -34,31 +33,31 @@ namespace Poker
         private int bot3Chips = 10000;
         private int bot4Chips = 10000;
         private int bot5Chips = 10000;
-        private double type = 0;
-        private int rounds = 0;
-        private double b1Power = 0;
-        private double b2Power = 0;
-        private double b3Power = 0;
-        private double b4Power = 0;
-        private double b5Power = 0;
-        private double pPower = 0;
+        private double type;
+        private int rounds;
+        private double b1Power;
+        private double b2Power;
+        private double b3Power;
+        private double b4Power;
+        private double b5Power;
+        private double pPower;
         private double playerType = -1;
-        private double raise = 0;
+        private double raise;
         private double bot1Type = -1;
         private double bot2Type = -1;
         private double bot3Type = -1;
         private double bot4Type = -1;
         private double bot5Type = -1;
-        private bool bot1Turn = false;
-        private bool bot2Turn = false;
-        private bool bot3Turn = false;
-        private bool bot4Turn = false;
-        private bool bot5Turn = false;
-        private bool bot1FoldedTurn = false;
-        private bool bot2FoldedTurn = false;
-        private bool bot3FoldedTurn = false;
-        private bool bot4FoldedTurn = false;
-        private bool bot5FoldedTurn = false;
+        private bool bot1Turn;
+        private bool bot2Turn;
+        private bool bot3Turn;
+        private bool bot4Turn;
+        private bool bot5Turn;
+        private bool bot1FoldedTurn;
+        private bool bot2FoldedTurn;
+        private bool bot3FoldedTurn;
+        private bool bot4FoldedTurn;
+        private bool bot5FoldedTurn;
         private bool pFolded;
         private bool b1Folded;
         private bool b2Folded;
@@ -67,21 +66,21 @@ namespace Poker
         private bool b5Folded;
         private bool intsadded;
         private bool changed;
-        private int pCall = 0;
-        private int b1Call = 0;
-        private int b2Call = 0;
-        private int b3Call = 0;
-        private int b4Call = 0;
-        private int b5Call = 0;
-        private int pRaise = 0;
-        private int b1Raise = 0;
-        private int b2Raise = 0;
-        private int b3Raise = 0;
-        private int b4Raise = 0;
-        private int b5Raise = 0;
-        private int height = 0;
-        private int width = 0;
-        private int winners = 0;
+        private int pCall;
+        private int b1Call;
+        private int b2Call;
+        private int b3Call;
+        private int b4Call;
+        private int b5Call;
+        private int pRaise;
+        private int b1Raise;
+        private int b2Raise;
+        private int b3Raise;
+        private int b4Raise;
+        private int b5Raise;
+        private int height;
+        private int width;
+        private int winners;
         private int flop = 1;
         private int turn = 2;
         private int river = 3;
@@ -93,10 +92,10 @@ namespace Poker
         List<Type> win = new List<Type>();
         List<string> CheckWinners = new List<string>();
         List<int> ints = new List<int>();
-        private bool playerFoldedTurn = false;
+        private bool playerFoldedTurn;
         private bool playerTurn = true;
-        private bool restart = false;
-        private bool raising = false;
+        private bool restart;
+        private bool raising;
         Poker.Type sorted;
         string[] ImgLocation = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
         /*string[] ImgLocation ={
@@ -130,8 +129,8 @@ namespace Poker
             this.MinimizeBox = false;
             this.updates.Start();
             this.InitializeComponent();
-            this.width = this.width;
-            this.height = this.height;
+            this.Width = this.width;
+            this.Height = this.height;
             this.Shuffle();
             this.tbPot.Enabled = false;
             this.tbChips.Enabled = false;
@@ -196,12 +195,12 @@ namespace Poker
 
                 this.Deck[this.i] = Image.FromFile(this.ImgLocation[i]);
                 var charsToRemove = new string[] { "Assets\\Cards\\", ".png" };
-                foreach (var c in charsToRemove)
+                foreach (string c in charsToRemove)
                 {
                     this.ImgLocation[i] = this.ImgLocation[i].Replace(c, string.Empty);
                 }
 
-                this.Reserve[i] = int.Parse(this.ImgLocation[i]) - 1;
+                this.Reserve[i] = int.Parse(this.ImgLocation[i]) - 1;// TODO: Lookhere
                 this.holder[i] = new PictureBox();
                 this.holder[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 this.holder[i].Height = 130;
@@ -2302,18 +2301,72 @@ namespace Poker
             {
                 FixWinners();
             }
-            pPanel.Visible = false; b1Panel.Visible = false; b2Panel.Visible = false; b3Panel.Visible = false; b4Panel.Visible = false; b5Panel.Visible = false;
-            call = bb; this.raise = 0;
+            pPanel.Visible = false;
+            b1Panel.Visible = false;
+            b2Panel.Visible = false;
+            b3Panel.Visible = false;
+            b4Panel.Visible = false;
+            b5Panel.Visible = false;
+            call = bb;
+            this.raise = 0;
             foldedPlayers = 5;
-            type = 0; rounds = 0; b1Power = 0; b2Power = 0; b3Power = 0; b4Power = 0; b5Power = 0; pPower = 0; this.playerType = -1; this.raise = 0;
-            this.bot1Type = -1; this.bot2Type = -1; this.bot3Type = -1; this.bot4Type = -1; this.bot5Type = -1;
-            this.bot1Turn = false; this.bot2Turn = false; this.bot3Turn = false; this.bot4Turn = false; this.bot5Turn = false;
-            this.bot1FoldedTurn = false; this.bot2FoldedTurn = false; this.bot3FoldedTurn = false; this.bot4FoldedTurn = false; this.bot5FoldedTurn = false;
-            pFolded = false; b1Folded = false; b2Folded = false; b3Folded = false; b4Folded = false; b5Folded = false;
-            this.playerFoldedTurn = false; this.playerTurn = true; restart = false; raising = false;
-            pCall = 0; b1Call = 0; b2Call = 0; b3Call = 0; b4Call = 0; b5Call = 0; pRaise = 0; b1Raise = 0; b2Raise = 0; b3Raise = 0; b4Raise = 0; b5Raise = 0;
-            height = 0; width = 0; winners = 0; this.flop = 1; this.turn = 2; this.river = 3; this.end = 4; maxLeft = 6;
-            last = 123; raisedTurn = 1;
+            type = 0;
+            rounds = 0;
+            b1Power = 0;
+            b2Power = 0;
+            b3Power = 0;
+            b4Power = 0;
+            b5Power = 0;
+            pPower = 0;
+            this.playerType = -1;
+            this.raise = 0;
+            this.bot1Type = -1;
+            this.bot2Type = -1;
+            this.bot3Type = -1;
+            this.bot4Type = -1;
+            this.bot5Type = -1;
+            this.bot1Turn = false;
+            this.bot2Turn = false;
+            this.bot3Turn = false;
+            this.bot4Turn = false;
+            this.bot5Turn = false;
+            this.bot1FoldedTurn = false;
+            this.bot2FoldedTurn = false;
+            this.bot3FoldedTurn = false;
+            this.bot4FoldedTurn = false;
+            this.bot5FoldedTurn = false;
+            pFolded = false;
+            b1Folded = false;
+            b2Folded = false;
+            b3Folded = false;
+            b4Folded = false;
+            b5Folded = false;
+            this.playerFoldedTurn = false;
+            this.playerTurn = true;
+            restart = false;
+            raising = false;
+            pCall = 0;
+            b1Call = 0;
+            b2Call = 0;
+            b3Call = 0;
+            b4Call = 0;
+            b5Call = 0;
+            pRaise = 0;
+            b1Raise = 0;
+            b2Raise = 0;
+            b3Raise = 0;
+            b4Raise = 0;
+            b5Raise = 0;
+            height = 0;
+            width = 0;
+            winners = 0;
+            this.flop = 1;
+            this.turn = 2;
+            this.river = 3;
+            this.end = 4;
+            maxLeft = 6;
+            last = 123;
+            raisedTurn = 1;
             bools.Clear();
             CheckWinners.Clear();
             ints.Clear();
@@ -2321,13 +2374,16 @@ namespace Poker
             sorted.Current = 0;
             sorted.Power = 0;
             tbPot.Text = "0";
-            t = 60; up = 10000000; turnCount = 0;
+            t = 60;
+            up = 10000000;
+            turnCount = 0;
             playerStatus.Text = "";
             bot1Status.Text = "";
             bot2Status.Text = "";
             bot3Status.Text = "";
             bot4Status.Text = "";
             bot5Status.Text = "";
+
             if (this.chips <= 0)
             {
                 AddChips f2 = new AddChips();
@@ -2355,7 +2411,7 @@ namespace Poker
                 this.holder[os].Invalidate();
                 this.holder[os].Visible = false;
             }
-            await Shuffle();
+            await this.Shuffle();
             //await Turns();
         }
         void FixWinners()
