@@ -88,7 +88,7 @@ namespace Poker
         private int turn = 2;
         private int river = 3;
         private int end = 4;
-        private int maxLeft = 6;
+        private int leftCompetitorsCount = 6;
         private int last;
         private int raisedTurn = 1;
         List<bool?> bools = new List<bool?>();
@@ -98,7 +98,7 @@ namespace Poker
         private bool restart;
         private bool raising;
         Poker.Type sorted;
-        string[] cardImagesLocations;
+        private string[] cardImagesLocations;
         /*string[] cardImagesLocations ={
                    "Assets\\Cards\\33.png","Assets\\Cards\\22.png",
                     "Assets\\Cards\\29.png","Assets\\Cards\\21.png",
@@ -110,7 +110,7 @@ namespace Poker
                     "Assets\\Cards\\12.png",
                     "Assets\\Cards\\8.png","Assets\\Cards\\18.png",
                     "Assets\\Cards\\15.png","Assets\\Cards\\27.png"};*/
-        private readonly int[]  throwenCardTagsCollection = new int[17];
+        private readonly int[]  throwenCardsTagsCollection = new int[17];
         private readonly Image[] cardImagesCollection = new Image[52];
         private readonly PictureBox[] cardsPictureBoxes = new PictureBox[52];
         private readonly Timer timer = new Timer();
@@ -181,7 +181,7 @@ namespace Poker
 
             for (int cardIndex = 0; cardIndex < 17; cardIndex++)
             {  
-                this.throwenCardTagsCollection[cardIndex] = int.Parse(cardImagesNumbersCollection[cardIndex]) - 1;// TODO: contains numbers of throwen cards
+                this.throwenCardsTagsCollection[cardIndex] = int.Parse(cardImagesNumbersCollection[cardIndex]) - 1;// TODO: contains numbers of throwen cards
                 this.cardsPictureBoxes[cardIndex] = new PictureBox
                 {
                     SizeMode = PictureBoxSizeMode.StretchImage,
@@ -199,11 +199,11 @@ namespace Poker
 
                     if (this.cardsPictureBoxes[0].Tag != null)
                     {
-                        this.cardsPictureBoxes[1].Tag = this.throwenCardTagsCollection[1];
+                        this.cardsPictureBoxes[1].Tag = this.throwenCardsTagsCollection[1];
                     }
 
-                    this.cardsPictureBoxes[0].Tag = this.throwenCardTagsCollection[0];
-                    this.cardsPictureBoxes[cardIndex].Image = cardBackImage;
+                    this.cardsPictureBoxes[0].Tag = this.throwenCardsTagsCollection[0];
+                    this.cardsPictureBoxes[cardIndex].Image = Image.FromFile(this.cardImagesLocations[cardIndex]);
                     this.cardsPictureBoxes[cardIndex].Anchor = (AnchorStyles.Bottom);
                     this.cardsPictureBoxes[cardIndex].Location = new Point(horizontal, vertical);
                     horizontal += this.cardsPictureBoxes[cardIndex].Width;
@@ -223,10 +223,10 @@ namespace Poker
 #region if there are 2 cards on the table and less than 4
                         if (this.cardsPictureBoxes[2].Tag != null)
                         {
-                            this.cardsPictureBoxes[3].Tag = this.throwenCardTagsCollection[3];
+                            this.cardsPictureBoxes[3].Tag = this.throwenCardsTagsCollection[3];
                         }
 
-                        this.cardsPictureBoxes[2].Tag = this.throwenCardTagsCollection[2];
+                        this.cardsPictureBoxes[2].Tag = this.throwenCardsTagsCollection[2];
                         if (!check)
                         {
                             horizontal = 15;
@@ -261,10 +261,10 @@ namespace Poker
 #region if there are 4 cards ont the table and less than 6
                         if (this.cardsPictureBoxes[4].Tag != null)
                         {
-                            this.cardsPictureBoxes[5].Tag = this.throwenCardTagsCollection[5];
+                            this.cardsPictureBoxes[5].Tag = this.throwenCardsTagsCollection[5];
                         }
 
-                        this.cardsPictureBoxes[4].Tag = this.throwenCardTagsCollection[4];
+                        this.cardsPictureBoxes[4].Tag = this.throwenCardsTagsCollection[4];
                         if (!check)
                         {
                             horizontal = 75;
@@ -300,10 +300,10 @@ namespace Poker
 #region if there are 6 cards on the table and less than 8
                         if (this.cardsPictureBoxes[6].Tag != null)
                         {
-                            this.cardsPictureBoxes[7].Tag = this.throwenCardTagsCollection[7];
+                            this.cardsPictureBoxes[7].Tag = this.throwenCardsTagsCollection[7];
                         }
 
-                        this.cardsPictureBoxes[6].Tag = this.throwenCardTagsCollection[6];
+                        this.cardsPictureBoxes[6].Tag = this.throwenCardsTagsCollection[6];
                         if (!check)
                         {
                             horizontal = 590;
@@ -339,10 +339,10 @@ namespace Poker
 #region if there are 8 cards on the table and less than 10
                         if (this.cardsPictureBoxes[8].Tag != null)
                         {
-                            this.cardsPictureBoxes[9].Tag = this.throwenCardTagsCollection[9];
+                            this.cardsPictureBoxes[9].Tag = this.throwenCardsTagsCollection[9];
                         }
 
-                        this.cardsPictureBoxes[8].Tag = this.throwenCardTagsCollection[8];
+                        this.cardsPictureBoxes[8].Tag = this.throwenCardsTagsCollection[8];
                         if (!check)
                         {
                             horizontal = 1115;
@@ -377,10 +377,10 @@ namespace Poker
 #region if there are 10 cards on the table and less than 12
                         if (this.cardsPictureBoxes[10].Tag != null)
                         {
-                            this.cardsPictureBoxes[11].Tag = this.throwenCardTagsCollection[11];
+                            this.cardsPictureBoxes[11].Tag = this.throwenCardsTagsCollection[11];
                         }
 
-                        this.cardsPictureBoxes[10].Tag = this.throwenCardTagsCollection[10];
+                        this.cardsPictureBoxes[10].Tag = this.throwenCardsTagsCollection[10];
                         if (!check)
                         {
                             horizontal = 1160;
@@ -411,25 +411,25 @@ namespace Poker
                 if (cardIndex >= 12)
                 {
 #region if there are 12 cards on the table
-                    this.cardsPictureBoxes[12].Tag = this.throwenCardTagsCollection[12];
+                    this.cardsPictureBoxes[12].Tag = this.throwenCardsTagsCollection[12];
                     if (cardIndex > 12)
                     {
-                        this.cardsPictureBoxes[13].Tag = this.throwenCardTagsCollection[13];
+                        this.cardsPictureBoxes[13].Tag = this.throwenCardsTagsCollection[13];
                     }
 
                     if (cardIndex > 13)
                     {
-                        this.cardsPictureBoxes[14].Tag = this.throwenCardTagsCollection[14];
+                        this.cardsPictureBoxes[14].Tag = this.throwenCardsTagsCollection[14];
                     }
 
                     if (cardIndex > 14)
                     {
-                        this.cardsPictureBoxes[15].Tag = this.throwenCardTagsCollection[15];
+                        this.cardsPictureBoxes[15].Tag = this.throwenCardsTagsCollection[15];
                     }
 
                     if (cardIndex > 15)
                     {
-                        this.cardsPictureBoxes[16].Tag = this.throwenCardTagsCollection[16];
+                        this.cardsPictureBoxes[16].Tag = this.throwenCardsTagsCollection[16];
                     }
 
                     if (!check)
@@ -625,10 +625,10 @@ namespace Poker
             {
                 if (this.playerTurn)
                 {
-                    this.FixCall(this.playerStatus, ref this.playerCall, ref this.playerRaise, 1);
+                    this.FixCall(this.playerStatus, ref this.playerCall, ref this.playerRaise);
                     //MessageBox.Show("Player's Turn");
-                    this.pbTimer.Visible = true;
-                    this.pbTimer.Value = 1000;
+                    this.timerProgressBar.Visible = true;
+                    this.timerProgressBar.Value = 1000;
                     this.t = 60;
                     this.up = 10000000;
                     this.timer.Start();
@@ -638,7 +638,6 @@ namespace Poker
                     this.raiseButton.Enabled = true;
                     this.foldButton.Enabled = true;
                     this.turnCount++;
-                    this.FixCall(this.playerStatus, ref this.playerCall, ref this.playerRaise, 2);
                 }
             }
 
@@ -647,16 +646,17 @@ namespace Poker
                 await this.AllIn();
                 if (this.playerFoldedTurn && !this.playerFolded)
                 {
-                    if (this.callButton.Text.Contains("All in") == false || this.raiseButton.Text.Contains("All in") == false)
+                    if (!this.callButton.Text.Contains("All in") || !this.raiseButton.Text.Contains("All in"))
                     {
                         this.bools.RemoveAt(0);
                         this.bools.Insert(0, null);
-                        this.maxLeft--;
+                        this.leftCompetitorsCount--;
                         this.playerFolded = true;
                     }
                 }
+
                 await this.CheckRaise(0, 0);
-                this.pbTimer.Visible = false;
+                this.timerProgressBar.Visible = false;
                 this.raiseButton.Enabled = false;
                 this.callButton.Enabled = false;
                 this.raiseButton.Enabled = false;
@@ -668,8 +668,7 @@ namespace Poker
                 {
                     if (this.bot1Turn)
                     {
-                        this.FixCall(this.bot1Status, ref this.bot1Call, ref this.bot1Raise, 1);
-                        this.FixCall(this.bot1Status, ref this.bot1Call, ref this.bot1Raise, 2);
+                        this.FixCall(this.bot1Status, ref this.bot1Call, ref this.bot1Raise);
                         this.Rules(2, 3, "Bot 1", ref this.bot1Type, ref this.bot1Power, this.bot1FoldedTurn);
                         MessageBox.Show("Bot 1's Turn");
                         this.AI(2, 3, ref this.bot1Chips, ref this.bot1Turn, ref this.bot1FoldedTurn, this.bot1Status, 0, this.bot1Power, this.bot1Type);
@@ -679,24 +678,26 @@ namespace Poker
                         this.bot2Turn = true;
                     }
                 }
+
                 if (this.bot1FoldedTurn && !this.bot1Folded)
                 {
                     this.bools.RemoveAt(1);
                     this.bools.Insert(1, null);
-                    this.maxLeft--;
+                    this.leftCompetitorsCount--;
                     this.bot1Folded = true;
                 }
+
                 if (this.bot1FoldedTurn || !this.bot1Turn)
                 {
                     await this.CheckRaise(1, 1);
                     this.bot2Turn = true;
                 }
+
                 if (!this.bot2FoldedTurn)
                 {
                     if (this.bot2Turn)
                     {
-                        this.FixCall(this.bot2Status, ref this.bot2Call, ref this.bot2Raise, 1);
-                        this.FixCall(this.bot2Status, ref this.bot2Call, ref this.bot2Raise, 2);
+                        this.FixCall(this.bot2Status, ref this.bot2Call, ref this.bot2Raise);
                         this.Rules(4, 5, "Bot 2", ref this.bot2Type, ref this.bot2Power, this.bot2FoldedTurn);
                         MessageBox.Show("Bot 2's Turn");
                         this.AI(4, 5, ref this.bot2Chips, ref this.bot2Turn, ref this.bot2FoldedTurn, this.bot2Status, 1, this.bot2Power, this.bot2Type);
@@ -706,24 +707,26 @@ namespace Poker
                         this.bot3Turn = true;
                     }
                 }
+
                 if (this.bot2FoldedTurn && !this.bot2Folded)
                 {
                     this.bools.RemoveAt(2);
                     this.bools.Insert(2, null);
-                    this.maxLeft--;
+                    this.leftCompetitorsCount--;
                     this.bot2Folded = true;
                 }
+
                 if (this.bot2FoldedTurn || !this.bot2Turn)
                 {
                     await this.CheckRaise(2, 2);
                     this.bot3Turn = true;
                 }
+
                 if (!this.bot3FoldedTurn)
                 {
                     if (this.bot3Turn)
                     {
-                        this.FixCall(this.bot3Status, ref this.bot3Call, ref this.bot3Raise, 1);
-                        this.FixCall(this.bot3Status, ref this.bot3Call, ref this.bot3Raise, 2);
+                        this.FixCall(this.bot3Status, ref this.bot3Call, ref this.bot3Raise);
                         this.Rules(6, 7, "Bot 3", ref this.bot3Type, ref this.bot3Power, this.bot3FoldedTurn);
                         MessageBox.Show("Bot 3's Turn");
                         this.AI(6, 7, ref this.bot3Chips, ref this.bot3Turn, ref this.bot3FoldedTurn, this.bot3Status, 2, this.bot3Power, this.bot3Type);
@@ -733,24 +736,26 @@ namespace Poker
                         this.bot4Turn = true;
                     }
                 }
+
                 if (this.bot3FoldedTurn && !this.bot3Folded)
                 {
                     this.bools.RemoveAt(3);
                     this.bools.Insert(3, null);
-                    this.maxLeft--;
+                    this.leftCompetitorsCount--;
                     this.bot3Folded = true;
                 }
+
                 if (this.bot3FoldedTurn || !this.bot3Turn)
                 {
                     await this.CheckRaise(3, 3);
                     this.bot4Turn = true;
                 }
+
                 if (!this.bot4FoldedTurn)
                 {
                     if (this.bot4Turn)
                     {
-                        FixCall(bot4Status, ref this.bot4Call, ref this.bot4Raise, 1);
-                        FixCall(bot4Status, ref this.bot4Call, ref this.bot4Raise, 2);
+                        FixCall(bot4Status, ref this.bot4Call, ref this.bot4Raise);
                         Rules(8, 9, "Bot 4", ref this.bot4Type, ref this.bot4Power, this.bot4FoldedTurn);
                         MessageBox.Show("Bot 4's Turn");
                         AI(8, 9, ref bot4Chips, ref this.bot4Turn, ref this.bot4FoldedTurn, bot4Status, 3, this.bot4Power, this.bot4Type);
@@ -760,24 +765,26 @@ namespace Poker
                         this.bot5Turn = true;
                     }
                 }
+
                 if (this.bot4FoldedTurn && !this.bot4Folded)
                 {
                     bools.RemoveAt(4);
                     bools.Insert(4, null);
-                    maxLeft--;
+                    this.leftCompetitorsCount--;
                     this.bot4Folded = true;
                 }
+
                 if (this.bot4FoldedTurn || !this.bot4Turn)
                 {
                     await CheckRaise(4, 4);
                     this.bot5Turn = true;
                 }
+
                 if (!this.bot5FoldedTurn)
                 {
                     if (this.bot5Turn)
                     {
-                        FixCall(this.bot5Status, ref this.bot5Call, ref this.bot5Raise, 1);
-                        FixCall(this.bot5Status, ref this.bot5Call, ref this.bot5Raise, 2);
+                        FixCall(this.bot5Status, ref this.bot5Call, ref this.bot5Raise);
                         Rules(10, 11, "Bot 5", ref this.bot5Type, ref this.bot5Power, this.bot5FoldedTurn);
                         MessageBox.Show("Bot 5's Turn");
                         AI(10, 11, ref bot5Chips, ref this.bot5Turn, ref this.bot5FoldedTurn, bot5Status, 4, this.bot5Power, this.bot5Type);
@@ -786,25 +793,28 @@ namespace Poker
                         this.bot5Turn = false;
                     }
                 }
+
                 if (this.bot5FoldedTurn && !this.bot5Folded)
                 {
                     bools.RemoveAt(5);
                     bools.Insert(5, null);
-                    maxLeft--;
+                    this.leftCompetitorsCount--;
                     this.bot5Folded = true;
                 }
+
                 if (this.bot5FoldedTurn || !this.bot5Turn)
                 {
                     await CheckRaise(5, 5);
                     this.playerTurn = true;
                 }
+
                 if (this.playerFoldedTurn && !this.playerFolded)
                 {
                     if (this.callButton.Text.Contains("All in") == false || this.raiseButton.Text.Contains("All in") == false)
                     {
                         bools.RemoveAt(0);
                         bools.Insert(0, null);
-                        maxLeft--;
+                        this.leftCompetitorsCount--;
                         this.playerFolded = true;
                     }
                 }
@@ -814,6 +824,7 @@ namespace Poker
                 {
                     await Turns();
                 }
+
                 restart = false;
             }
         }
@@ -829,13 +840,13 @@ namespace Poker
                 bool done = false, vf = false;
                 int[] Straight1 = new int[5];
                 int[] Straight = new int[7];
-                Straight[0] = this.throwenCardTagsCollection[c1];
-                Straight[1] = this.throwenCardTagsCollection[c2];
-                Straight1[0] = Straight[2] = this.throwenCardTagsCollection[12];
-                Straight1[1] = Straight[3] = this.throwenCardTagsCollection[13];
-                Straight1[2] = Straight[4] = this.throwenCardTagsCollection[14];
-                Straight1[3] = Straight[5] = this.throwenCardTagsCollection[15];
-                Straight1[4] = Straight[6] = this.throwenCardTagsCollection[16];
+                Straight[0] = this.throwenCardsTagsCollection[c1];
+                Straight[1] = this.throwenCardsTagsCollection[c2];
+                Straight1[0] = Straight[2] = this.throwenCardsTagsCollection[12];
+                Straight1[1] = Straight[3] = this.throwenCardsTagsCollection[13];
+                Straight1[2] = Straight[4] = this.throwenCardsTagsCollection[14];
+                Straight1[3] = Straight[5] = this.throwenCardsTagsCollection[15];
+                Straight1[4] = Straight[6] = this.throwenCardsTagsCollection[16];
                 var a = Straight.Where(o => o % 4 == 0).ToArray();
                 var b = Straight.Where(o => o % 4 == 1).ToArray();
                 var c = Straight.Where(o => o % 4 == 2).ToArray();
@@ -848,7 +859,7 @@ namespace Poker
                 #endregion
                 for (i = 0; i < 16; i++)
                 {
-                    if (this.throwenCardTagsCollection[i] == int.Parse(this.cardsPictureBoxes[c1].Tag.ToString()) && this.throwenCardTagsCollection[i + 1] == int.Parse(this.cardsPictureBoxes[c2].Tag.ToString()))
+                    if (this.throwenCardsTagsCollection[i] == int.Parse(this.cardsPictureBoxes[c1].Tag.ToString()) && this.throwenCardsTagsCollection[i + 1] == int.Parse(this.cardsPictureBoxes[c2].Tag.ToString()))
                     {
                         //Pair from Hand current = 1
 
@@ -1053,25 +1064,25 @@ namespace Poker
                 var f4 = Straight1.Where(o => o % 4 == 3).ToArray();
                 if (f1.Length == 3 || f1.Length == 4)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f1[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f1[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f1.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f1.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f1.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f1.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (this.throwenCardTagsCollection[i] / 4 < f1.Max() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f1.Max() / 4)
+                        else if (this.throwenCardsTagsCollection[i] / 4 < f1.Max() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f1.Max() / 4)
                         {
                             current = 5;
                             Power = f1.Max() + current * 100;
@@ -1083,12 +1094,12 @@ namespace Poker
                 }
                 if (f1.Length == 4)//different cards in hand
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 != this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f1[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 != this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f1[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f1.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f1.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1102,12 +1113,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 != this.throwenCardTagsCollection[i] % 4 && this.throwenCardTagsCollection[i + 1] % 4 == f1[0] % 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 != this.throwenCardsTagsCollection[i] % 4 && this.throwenCardsTagsCollection[i + 1] % 4 == f1[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f1.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f1.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1124,23 +1135,23 @@ namespace Poker
                 }
                 if (f1.Length == 5)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == f1[0] % 4 && this.throwenCardTagsCollection[i] / 4 > f1.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == f1[0] % 4 && this.throwenCardsTagsCollection[i] / 4 > f1.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 == f1[0] % 4 && this.throwenCardTagsCollection[i + 1] / 4 > f1.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 == f1[0] % 4 && this.throwenCardsTagsCollection[i + 1] / 4 > f1.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (this.throwenCardTagsCollection[i] / 4 < f1.Min() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f1.Min())
+                    else if (this.throwenCardsTagsCollection[i] / 4 < f1.Min() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f1.Min())
                     {
                         current = 5;
                         Power = f1.Max() + current * 100;
@@ -1152,25 +1163,25 @@ namespace Poker
 
                 if (f2.Length == 3 || f2.Length == 4)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f2[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f2[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f2.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f2.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f2.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f2.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (this.throwenCardTagsCollection[i] / 4 < f2.Max() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f2.Max() / 4)
+                        else if (this.throwenCardsTagsCollection[i] / 4 < f2.Max() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f2.Max() / 4)
                         {
                             current = 5;
                             Power = f2.Max() + current * 100;
@@ -1182,12 +1193,12 @@ namespace Poker
                 }
                 if (f2.Length == 4)//different cards in hand
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 != this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f2[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 != this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f2[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f2.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f2.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1201,12 +1212,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 != this.throwenCardTagsCollection[i] % 4 && this.throwenCardTagsCollection[i + 1] % 4 == f2[0] % 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 != this.throwenCardsTagsCollection[i] % 4 && this.throwenCardsTagsCollection[i + 1] % 4 == f2[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f2.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f2.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1223,23 +1234,23 @@ namespace Poker
                 }
                 if (f2.Length == 5)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == f2[0] % 4 && this.throwenCardTagsCollection[i] / 4 > f2.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == f2[0] % 4 && this.throwenCardsTagsCollection[i] / 4 > f2.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 == f2[0] % 4 && this.throwenCardTagsCollection[i + 1] / 4 > f2.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 == f2[0] % 4 && this.throwenCardsTagsCollection[i + 1] / 4 > f2.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (this.throwenCardTagsCollection[i] / 4 < f2.Min() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f2.Min())
+                    else if (this.throwenCardsTagsCollection[i] / 4 < f2.Min() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f2.Min())
                     {
                         current = 5;
                         Power = f2.Max() + current * 100;
@@ -1251,25 +1262,25 @@ namespace Poker
 
                 if (f3.Length == 3 || f3.Length == 4)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f3[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f3[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f3.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f3.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f3.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f3.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (this.throwenCardTagsCollection[i] / 4 < f3.Max() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f3.Max() / 4)
+                        else if (this.throwenCardsTagsCollection[i] / 4 < f3.Max() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f3.Max() / 4)
                         {
                             current = 5;
                             Power = f3.Max() + current * 100;
@@ -1281,12 +1292,12 @@ namespace Poker
                 }
                 if (f3.Length == 4)//different cards in hand
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 != this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f3[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 != this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f3[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f3.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f3.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1300,12 +1311,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 != this.throwenCardTagsCollection[i] % 4 && this.throwenCardTagsCollection[i + 1] % 4 == f3[0] % 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 != this.throwenCardsTagsCollection[i] % 4 && this.throwenCardsTagsCollection[i + 1] % 4 == f3[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f3.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f3.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1322,23 +1333,23 @@ namespace Poker
                 }
                 if (f3.Length == 5)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == f3[0] % 4 && this.throwenCardTagsCollection[i] / 4 > f3.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == f3[0] % 4 && this.throwenCardsTagsCollection[i] / 4 > f3.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 == f3[0] % 4 && this.throwenCardTagsCollection[i + 1] / 4 > f3.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 == f3[0] % 4 && this.throwenCardsTagsCollection[i + 1] / 4 > f3.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (this.throwenCardTagsCollection[i] / 4 < f3.Min() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f3.Min())
+                    else if (this.throwenCardsTagsCollection[i] / 4 < f3.Min() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f3.Min())
                     {
                         current = 5;
                         Power = f3.Max() + current * 100;
@@ -1350,25 +1361,25 @@ namespace Poker
 
                 if (f4.Length == 3 || f4.Length == 4)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f4[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f4[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f4.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f4.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f4.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f4.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (this.throwenCardTagsCollection[i] / 4 < f4.Max() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f4.Max() / 4)
+                        else if (this.throwenCardsTagsCollection[i] / 4 < f4.Max() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f4.Max() / 4)
                         {
                             current = 5;
                             Power = f4.Max() + current * 100;
@@ -1380,12 +1391,12 @@ namespace Poker
                 }
                 if (f4.Length == 4)//different cards in hand
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 != this.throwenCardTagsCollection[i + 1] % 4 && this.throwenCardTagsCollection[i] % 4 == f4[0] % 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 != this.throwenCardsTagsCollection[i + 1] % 4 && this.throwenCardsTagsCollection[i] % 4 == f4[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 > f4.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i] / 4 > f4.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1399,12 +1410,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 != this.throwenCardTagsCollection[i] % 4 && this.throwenCardTagsCollection[i + 1] % 4 == f4[0] % 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 != this.throwenCardsTagsCollection[i] % 4 && this.throwenCardsTagsCollection[i + 1] % 4 == f4[0] % 4)
                     {
-                        if (this.throwenCardTagsCollection[i + 1] / 4 > f4.Max() / 4)
+                        if (this.throwenCardsTagsCollection[i + 1] / 4 > f4.Max() / 4)
                         {
                             current = 5;
-                            Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                            Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 5 });
                             sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -1421,23 +1432,23 @@ namespace Poker
                 }
                 if (f4.Length == 5)
                 {
-                    if (this.throwenCardTagsCollection[i] % 4 == f4[0] % 4 && this.throwenCardTagsCollection[i] / 4 > f4.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i] % 4 == f4[0] % 4 && this.throwenCardsTagsCollection[i] / 4 > f4.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (this.throwenCardTagsCollection[i + 1] % 4 == f4[0] % 4 && this.throwenCardTagsCollection[i + 1] / 4 > f4.Min() / 4)
+                    if (this.throwenCardsTagsCollection[i + 1] % 4 == f4[0] % 4 && this.throwenCardsTagsCollection[i + 1] / 4 > f4.Min() / 4)
                     {
                         current = 5;
-                        Power = this.throwenCardTagsCollection[i + 1] + current * 100;
+                        Power = this.throwenCardsTagsCollection[i + 1] + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (this.throwenCardTagsCollection[i] / 4 < f4.Min() / 4 && this.throwenCardTagsCollection[i + 1] / 4 < f4.Min())
+                    else if (this.throwenCardsTagsCollection[i] / 4 < f4.Min() / 4 && this.throwenCardsTagsCollection[i + 1] / 4 < f4.Min())
                     {
                         current = 5;
                         Power = f4.Max() + current * 100;
@@ -1449,14 +1460,14 @@ namespace Poker
                 //ace
                 if (f1.Length > 0)
                 {
-                    if (this.throwenCardTagsCollection[i] / 4 == 0 && this.throwenCardTagsCollection[i] % 4 == f1[0] % 4 && vf && f1.Length > 0)
+                    if (this.throwenCardsTagsCollection[i] / 4 == 0 && this.throwenCardsTagsCollection[i] % 4 == f1[0] % 4 && vf && f1.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5.5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (this.throwenCardTagsCollection[i + 1] / 4 == 0 && this.throwenCardTagsCollection[i + 1] % 4 == f1[0] % 4 && vf && f1.Length > 0)
+                    if (this.throwenCardsTagsCollection[i + 1] / 4 == 0 && this.throwenCardsTagsCollection[i + 1] % 4 == f1[0] % 4 && vf && f1.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
@@ -1466,14 +1477,14 @@ namespace Poker
                 }
                 if (f2.Length > 0)
                 {
-                    if (this.throwenCardTagsCollection[i] / 4 == 0 && this.throwenCardTagsCollection[i] % 4 == f2[0] % 4 && vf && f2.Length > 0)
+                    if (this.throwenCardsTagsCollection[i] / 4 == 0 && this.throwenCardsTagsCollection[i] % 4 == f2[0] % 4 && vf && f2.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5.5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (this.throwenCardTagsCollection[i + 1] / 4 == 0 && this.throwenCardTagsCollection[i + 1] % 4 == f2[0] % 4 && vf && f2.Length > 0)
+                    if (this.throwenCardsTagsCollection[i + 1] / 4 == 0 && this.throwenCardsTagsCollection[i + 1] % 4 == f2[0] % 4 && vf && f2.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
@@ -1483,14 +1494,14 @@ namespace Poker
                 }
                 if (f3.Length > 0)
                 {
-                    if (this.throwenCardTagsCollection[i] / 4 == 0 && this.throwenCardTagsCollection[i] % 4 == f3[0] % 4 && vf && f3.Length > 0)
+                    if (this.throwenCardsTagsCollection[i] / 4 == 0 && this.throwenCardsTagsCollection[i] % 4 == f3[0] % 4 && vf && f3.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5.5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (this.throwenCardTagsCollection[i + 1] / 4 == 0 && this.throwenCardTagsCollection[i + 1] % 4 == f3[0] % 4 && vf && f3.Length > 0)
+                    if (this.throwenCardsTagsCollection[i + 1] / 4 == 0 && this.throwenCardsTagsCollection[i + 1] % 4 == f3[0] % 4 && vf && f3.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
@@ -1500,14 +1511,14 @@ namespace Poker
                 }
                 if (f4.Length > 0)
                 {
-                    if (this.throwenCardTagsCollection[i] / 4 == 0 && this.throwenCardTagsCollection[i] % 4 == f4[0] % 4 && vf && f4.Length > 0)
+                    if (this.throwenCardsTagsCollection[i] / 4 == 0 && this.throwenCardsTagsCollection[i] % 4 == f4[0] % 4 && vf && f4.Length > 0)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
                         this.win.Add(new Type() { Power = Power, Current = 5.5 });
                         sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (this.throwenCardTagsCollection[i + 1] / 4 == 0 && this.throwenCardTagsCollection[i + 1] % 4 == f4[0] % 4 && vf)
+                    if (this.throwenCardsTagsCollection[i + 1] / 4 == 0 && this.throwenCardsTagsCollection[i + 1] % 4 == f4[0] % 4 && vf)
                     {
                         current = 5.5;
                         Power = 13 + current * 100;
@@ -1586,7 +1597,7 @@ namespace Poker
                 for (int tc = 16; tc >= 12; tc--)
                 {
                     int max = tc - 12;
-                    if (this.throwenCardTagsCollection[i] / 4 != this.throwenCardTagsCollection[i + 1] / 4)
+                    if (this.throwenCardsTagsCollection[i] / 4 != this.throwenCardsTagsCollection[i + 1] / 4)
                     {
                         for (int k = 1; k <= max; k++)
                         {
@@ -1596,29 +1607,29 @@ namespace Poker
                             }
                             if (tc - k >= 12)
                             {
-                                if (this.throwenCardTagsCollection[i] / 4 == this.throwenCardTagsCollection[tc] / 4 && this.throwenCardTagsCollection[i + 1] / 4 == this.throwenCardTagsCollection[tc - k] / 4 ||
-                                    this.throwenCardTagsCollection[i + 1] / 4 == this.throwenCardTagsCollection[tc] / 4 && this.throwenCardTagsCollection[i] / 4 == this.throwenCardTagsCollection[tc - k] / 4)
+                                if (this.throwenCardsTagsCollection[i] / 4 == this.throwenCardsTagsCollection[tc] / 4 && this.throwenCardsTagsCollection[i + 1] / 4 == this.throwenCardsTagsCollection[tc - k] / 4 ||
+                                    this.throwenCardsTagsCollection[i + 1] / 4 == this.throwenCardsTagsCollection[tc] / 4 && this.throwenCardsTagsCollection[i] / 4 == this.throwenCardsTagsCollection[tc - k] / 4)
                                 {
                                     if (!msgbox)
                                     {
-                                        if (this.throwenCardTagsCollection[i] / 4 == 0)
+                                        if (this.throwenCardsTagsCollection[i] / 4 == 0)
                                         {
                                             current = 2;
-                                            Power = 13 * 4 + (this.throwenCardTagsCollection[i + 1] / 4) * 2 + current * 100;
+                                            Power = 13 * 4 + (this.throwenCardsTagsCollection[i + 1] / 4) * 2 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (this.throwenCardTagsCollection[i + 1] / 4 == 0)
+                                        if (this.throwenCardsTagsCollection[i + 1] / 4 == 0)
                                         {
                                             current = 2;
-                                            Power = 13 * 4 + (this.throwenCardTagsCollection[i] / 4) * 2 + current * 100;
+                                            Power = 13 * 4 + (this.throwenCardsTagsCollection[i] / 4) * 2 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (this.throwenCardTagsCollection[i + 1] / 4 != 0 && this.throwenCardTagsCollection[i] / 4 != 0)
+                                        if (this.throwenCardsTagsCollection[i + 1] / 4 != 0 && this.throwenCardsTagsCollection[i] / 4 != 0)
                                         {
                                             current = 2;
-                                            Power = (this.throwenCardTagsCollection[i] / 4) * 2 + (this.throwenCardTagsCollection[i + 1] / 4) * 2 + current * 100;
+                                            Power = (this.throwenCardsTagsCollection[i] / 4) * 2 + (this.throwenCardsTagsCollection[i + 1] / 4) * 2 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
@@ -1648,37 +1659,37 @@ namespace Poker
                         }
                         if (tc - k >= 12)
                         {
-                            if (this.throwenCardTagsCollection[tc] / 4 == this.throwenCardTagsCollection[tc - k] / 4)
+                            if (this.throwenCardsTagsCollection[tc] / 4 == this.throwenCardsTagsCollection[tc - k] / 4)
                             {
-                                if (this.throwenCardTagsCollection[tc] / 4 != this.throwenCardTagsCollection[i] / 4 && this.throwenCardTagsCollection[tc] / 4 != this.throwenCardTagsCollection[i + 1] / 4 && current == 1)
+                                if (this.throwenCardsTagsCollection[tc] / 4 != this.throwenCardsTagsCollection[i] / 4 && this.throwenCardsTagsCollection[tc] / 4 != this.throwenCardsTagsCollection[i + 1] / 4 && current == 1)
                                 {
                                     if (!msgbox)
                                     {
-                                        if (this.throwenCardTagsCollection[i + 1] / 4 == 0)
+                                        if (this.throwenCardsTagsCollection[i + 1] / 4 == 0)
                                         {
                                             current = 2;
-                                            Power = (this.throwenCardTagsCollection[i] / 4) * 2 + 13 * 4 + current * 100;
+                                            Power = (this.throwenCardsTagsCollection[i] / 4) * 2 + 13 * 4 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (this.throwenCardTagsCollection[i] / 4 == 0)
+                                        if (this.throwenCardsTagsCollection[i] / 4 == 0)
                                         {
                                             current = 2;
-                                            Power = (this.throwenCardTagsCollection[i + 1] / 4) * 2 + 13 * 4 + current * 100;
+                                            Power = (this.throwenCardsTagsCollection[i + 1] / 4) * 2 + 13 * 4 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (this.throwenCardTagsCollection[i + 1] / 4 != 0)
+                                        if (this.throwenCardsTagsCollection[i + 1] / 4 != 0)
                                         {
                                             current = 2;
-                                            Power = (this.throwenCardTagsCollection[tc] / 4) * 2 + (this.throwenCardTagsCollection[i + 1] / 4) * 2 + current * 100;
+                                            Power = (this.throwenCardsTagsCollection[tc] / 4) * 2 + (this.throwenCardsTagsCollection[i + 1] / 4) * 2 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (this.throwenCardTagsCollection[i] / 4 != 0)
+                                        if (this.throwenCardsTagsCollection[i] / 4 != 0)
                                         {
                                             current = 2;
-                                            Power = (this.throwenCardTagsCollection[tc] / 4) * 2 + (this.throwenCardTagsCollection[i] / 4) * 2 + current * 100;
+                                            Power = (this.throwenCardsTagsCollection[tc] / 4) * 2 + (this.throwenCardsTagsCollection[i] / 4) * 2 + current * 100;
                                             this.win.Add(new Type() { Power = Power, Current = 2 });
                                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
@@ -1689,36 +1700,36 @@ namespace Poker
                                 {
                                     if (!msgbox1)
                                     {
-                                        if (this.throwenCardTagsCollection[i] / 4 > this.throwenCardTagsCollection[i + 1] / 4)
+                                        if (this.throwenCardsTagsCollection[i] / 4 > this.throwenCardsTagsCollection[i + 1] / 4)
                                         {
-                                            if (this.throwenCardTagsCollection[tc] / 4 == 0)
+                                            if (this.throwenCardsTagsCollection[tc] / 4 == 0)
                                             {
                                                 current = 0;
-                                                Power = 13 + this.throwenCardTagsCollection[i] / 4 + current * 100;
+                                                Power = 13 + this.throwenCardsTagsCollection[i] / 4 + current * 100;
                                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                             else
                                             {
                                                 current = 0;
-                                                Power = this.throwenCardTagsCollection[tc] / 4 + this.throwenCardTagsCollection[i] / 4 + current * 100;
+                                                Power = this.throwenCardsTagsCollection[tc] / 4 + this.throwenCardsTagsCollection[i] / 4 + current * 100;
                                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                         }
                                         else
                                         {
-                                            if (this.throwenCardTagsCollection[tc] / 4 == 0)
+                                            if (this.throwenCardsTagsCollection[tc] / 4 == 0)
                                             {
                                                 current = 0;
-                                                Power = 13 + this.throwenCardTagsCollection[i + 1] + current * 100;
+                                                Power = 13 + this.throwenCardsTagsCollection[i + 1] + current * 100;
                                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                             else
                                             {
                                                 current = 0;
-                                                Power = this.throwenCardTagsCollection[tc] / 4 + this.throwenCardTagsCollection[i + 1] / 4 + current * 100;
+                                                Power = this.throwenCardsTagsCollection[tc] / 4 + this.throwenCardsTagsCollection[i + 1] / 4 + current * 100;
                                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
@@ -1737,11 +1748,14 @@ namespace Poker
             if (current >= -1)
             {
                 bool msgbox = false;
-                if (this.throwenCardTagsCollection[i] / 4 == this.throwenCardTagsCollection[i + 1] / 4)
+                bool cardsAreWithSameSymbol = this.throwenCardsTagsCollection[i]/4 ==
+                                              this.throwenCardsTagsCollection[i + 1]/4;
+                if (cardsAreWithSameSymbol)
                 {
                     if (!msgbox)
                     {
-                        if (this.throwenCardTagsCollection[i] / 4 == 0)
+                        bool cardSymbolIsAce = this.throwenCardsTagsCollection[i] < 4;
+                        if (cardSymbolIsAce)
                         {
                             current = 1;
                             Power = 13 * 4 + current * 100;
@@ -1751,7 +1765,7 @@ namespace Poker
                         else
                         {
                             current = 1;
-                            Power = (this.throwenCardTagsCollection[i + 1] / 4) * 4 + current * 100;
+                            Power = (this.throwenCardsTagsCollection[i + 1] / 4) * 4 + current * 100;
                             this.win.Add(new Type() { Power = Power, Current = 1 });
                             sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                         }
@@ -1760,42 +1774,47 @@ namespace Poker
                 }
                 for (int tc = 16; tc >= 12; tc--)
                 {
-                    if (this.throwenCardTagsCollection[i + 1] / 4 == this.throwenCardTagsCollection[tc] / 4)
+                     cardsAreWithSameSymbol = this.throwenCardsTagsCollection[i + 1] / 4 == this.throwenCardsTagsCollection[tc] / 4;
+                    if (cardsAreWithSameSymbol)
                     {
                         if (!msgbox)
                         {
-                            if (this.throwenCardTagsCollection[i + 1] / 4 == 0)
+                            bool cardSymbolIsAce = this.throwenCardsTagsCollection[i + 1] < 4;
+                            if (cardSymbolIsAce)
                             {
                                 current = 1;
-                                Power = 13 * 4 + this.throwenCardTagsCollection[i] / 4 + current * 100;
+                                Power = 13 * 4 + this.throwenCardsTagsCollection[i] / 4 + current * 100;
                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                             else
                             {
                                 current = 1;
-                                Power = (this.throwenCardTagsCollection[i + 1] / 4) * 4 + this.throwenCardTagsCollection[i] / 4 + current * 100;
+                                Power = (this.throwenCardsTagsCollection[i + 1] / 4) * 4 + this.throwenCardsTagsCollection[i] / 4 + current * 100;
                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                         }
                         msgbox = true;
                     }
-                    if (this.throwenCardTagsCollection[i] / 4 == this.throwenCardTagsCollection[tc] / 4)
+                    cardsAreWithSameSymbol = this.throwenCardsTagsCollection[i]/4 ==
+                                             this.throwenCardsTagsCollection[tc]/4;
+                    if (cardsAreWithSameSymbol)
                     {
                         if (!msgbox)
                         {
-                            if (this.throwenCardTagsCollection[i] / 4 == 0)
+                            bool cardIsAce = this.throwenCardsTagsCollection[i] < 4;
+                            if (cardIsAce)
                             {
                                 current = 1;
-                                Power = 13 * 4 + this.throwenCardTagsCollection[i + 1] / 4 + current * 100;
+                                Power = 13 * 4 + this.throwenCardsTagsCollection[i + 1] / 4 + current * 100;
                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                             else
                             {
                                 current = 1;
-                                Power = (this.throwenCardTagsCollection[tc] / 4) * 4 + this.throwenCardTagsCollection[i + 1] / 4 + current * 100;
+                                Power = (this.throwenCardsTagsCollection[tc] / 4) * 4 + this.throwenCardsTagsCollection[i + 1] / 4 + current * 100;
                                 this.win.Add(new Type() { Power = Power, Current = 1 });
                                 sorted = this.win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
@@ -1809,21 +1828,21 @@ namespace Poker
         {
             if (current == -1)
             {
-                if (this.throwenCardTagsCollection[i] / 4 > this.throwenCardTagsCollection[i + 1] / 4)
+                if (this.throwenCardsTagsCollection[i] / 4 > this.throwenCardsTagsCollection[i + 1] / 4)
                 {
                     current = -1;
-                    Power = this.throwenCardTagsCollection[i] / 4;
+                    Power = this.throwenCardsTagsCollection[i] / 4;
                     this.win.Add(new Type() { Power = Power, Current = -1 });
                     sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                 }
                 else
                 {
                     current = -1;
-                    Power = this.throwenCardTagsCollection[i + 1] / 4;
+                    Power = this.throwenCardsTagsCollection[i + 1] / 4;
                     this.win.Add(new Type() { Power = Power, Current = -1 });
                     sorted = this.win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                 }
-                if (this.throwenCardTagsCollection[i] / 4 == 0 || this.throwenCardTagsCollection[i + 1] / 4 == 0)
+                if (this.throwenCardsTagsCollection[i] / 4 == 0 || this.throwenCardsTagsCollection[i + 1] / 4 == 0)
                 {
                     current = -1;
                     Power = 13;
@@ -1989,9 +2008,9 @@ namespace Poker
             }
             else
             {
-                if (turnCount >= maxLeft - 1 || !changed && turnCount == maxLeft)
+                if (turnCount >= this.leftCompetitorsCount - 1 || !changed && turnCount == this.leftCompetitorsCount)
                 {
-                    if (currentTurn == raisedTurn - 1 || !changed && turnCount == maxLeft || raisedTurn == 0 && currentTurn == 5)
+                    if (currentTurn == raisedTurn - 1 || !changed && turnCount == this.leftCompetitorsCount || raisedTurn == 0 && currentTurn == 5)
                     {
                         changed = false;
                         turnCount = 0;
@@ -2062,7 +2081,7 @@ namespace Poker
                     }
                 }
             }
-            if (rounds == this.end && maxLeft == 6)
+            if (rounds == this.end && this.leftCompetitorsCount == 6)
             {
                 string fixedLast = "qwerty";
                 if (!playerStatus.Text.Contains("Fold"))
@@ -2183,47 +2202,47 @@ namespace Poker
                 await Turns();
             }
         }
-        void FixCall(Label status, ref int cCall, ref int cRaise, int options)
+        void FixCall(Label status, ref int competitorCall, ref int competitorRaise)
         {
-            if (rounds != 4)
+            if (this.rounds != 4)
             {
-                if (options == 1)
+                if (status.Text.Contains("Raise"))
                 {
-                    if (status.Text.Contains("Raise"))
-                    {
-                        var changeRaise = status.Text.Substring(6);
-                        cRaise = int.Parse(changeRaise);
-                    }
-                    if (status.Text.Contains("Call"))
-                    {
-                        var changeCall = status.Text.Substring(5);
-                        cCall = int.Parse(changeCall);
-                    }
-                    if (status.Text.Contains("Check"))
-                    {
-                        cRaise = 0;
-                        cCall = 0;
-                    }
+                    string changeRaise = status.Text.Substring(6);
+                    competitorRaise = int.Parse(changeRaise);
                 }
-                if (options == 2)
+
+                if (status.Text.Contains("Call"))
                 {
-                    if (cRaise != this.raise && cRaise <= this.raise)
-                    {
-                        call = Convert.ToInt32(this.raise) - cRaise;
-                    }
-                    if (cCall != call || cCall <= call)
-                    {
-                        call = call - cCall;
-                    }
-                    if (cRaise == this.raise && this.raise > 0)
-                    {
-                        call = 0;
-                        this.callButton.Enabled = false;
-                        this.callButton.Text = "Callisfuckedup";
-                    }
+                    string changeCall = status.Text.Substring(5);
+                    competitorCall = int.Parse(changeCall);
+                }
+
+                if (status.Text.Contains("Check"))
+                {
+                    competitorRaise = 0;
+                    competitorCall = 0;
+                }
+
+                if (competitorRaise != this.raise && competitorRaise <= this.raise)
+                {
+                    call = Convert.ToInt32(this.raise) - competitorRaise;
+                }
+
+                if (competitorCall != this.call || competitorCall <= call)
+                {
+                    this.call -= competitorCall;
+                }
+
+                if (competitorRaise == this.raise && this.raise > 0)
+                {
+                    call = 0;
+                    this.callButton.Enabled = false;
+                    this.callButton.Text = "Callisfuckedup";
                 }
             }
         }
+
         async Task AllIn()
         {
             #region All in
@@ -2285,7 +2304,7 @@ namespace Poker
                     intsadded = true;
                 }
             }
-            if (ints.ToArray().Length == maxLeft)
+            if (ints.ToArray().Length == this.leftCompetitorsCount)
             {
                 await Finish(2);
             }
@@ -2430,7 +2449,7 @@ namespace Poker
             this.turn = 2;
             this.river = 3;
             this.end = 4;
-            maxLeft = 6;
+            this.leftCompetitorsCount = 6;
             last = 123;
             raisedTurn = 1;
             bools.Clear();
@@ -2939,7 +2958,7 @@ namespace Poker
         #region UI
         private async void timer_Tick(object sender, object e)
         {
-            if (pbTimer.Value <= 0)
+            if (this.timerProgressBar.Value <= 0)
             {
                 this.playerFoldedTurn = true;
                 await Turns();
@@ -2947,7 +2966,7 @@ namespace Poker
             if (t > 0)
             {
                 t--;
-                pbTimer.Value = (t / 6) * 100;
+                this.timerProgressBar.Value = (t / 6) * 100;
             }
         }
         private void Update_Tick(object sender, object e)
@@ -3064,7 +3083,7 @@ namespace Poker
             if (this.playerChips >= call)
             {
                 this.playerChips -= call;
-                this.playerChipsTextBox.Text = "Chips : " + this.playerChips.ToString();
+                this.playerChipsTextBox.Text = "Chips : " + this.playerChips;
                 if (this.potTextBox.Text != "")
                 {
                     this.potTextBox.Text = (int.Parse(this.potTextBox.Text) + call).ToString();

@@ -32,7 +32,7 @@
             this.checkButton = new System.Windows.Forms.Button();
             this.callButton = new System.Windows.Forms.Button();
             this.raiseButton = new System.Windows.Forms.Button();
-            this.pbTimer = new System.Windows.Forms.ProgressBar();
+            this.timerProgressBar = new System.Windows.Forms.ProgressBar();
             this.playerChipsTextBox = new System.Windows.Forms.TextBox();
             this.bAdd = new System.Windows.Forms.Button();
             this.tbAdd = new System.Windows.Forms.TextBox();
@@ -105,16 +105,16 @@
             this.raiseButton.UseVisualStyleBackColor = true;
             this.raiseButton.Click += new System.EventHandler(this.bRaise_Click);
             // 
-            // pbTimer
+            // timerProgressBar
             // 
-            this.pbTimer.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.pbTimer.BackColor = System.Drawing.SystemColors.Control;
-            this.pbTimer.Location = new System.Drawing.Point(335, 631);
-            this.pbTimer.Maximum = 1000;
-            this.pbTimer.Name = "pbTimer";
-            this.pbTimer.Size = new System.Drawing.Size(667, 23);
-            this.pbTimer.TabIndex = 5;
-            this.pbTimer.Value = 1000;
+            this.timerProgressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.timerProgressBar.BackColor = System.Drawing.SystemColors.Control;
+            this.timerProgressBar.Location = new System.Drawing.Point(335, 631);
+            this.timerProgressBar.Maximum = 1000;
+            this.timerProgressBar.Name = "timerProgressBar";
+            this.timerProgressBar.Size = new System.Drawing.Size(667, 23);
+            this.timerProgressBar.TabIndex = 5;
+            this.timerProgressBar.Value = 1000;
             // 
             // playerChipsTextBox
             // 
@@ -345,7 +345,7 @@
             this.Controls.Add(this.tbAdd);
             this.Controls.Add(this.bAdd);
             this.Controls.Add(this.playerChipsTextBox);
-            this.Controls.Add(this.pbTimer);
+            this.Controls.Add(this.timerProgressBar);
             this.Controls.Add(this.raiseButton);
             this.Controls.Add(this.callButton);
             this.Controls.Add(this.checkButton);
@@ -365,7 +365,7 @@
         private System.Windows.Forms.Button checkButton;
         private System.Windows.Forms.Button callButton;
         private System.Windows.Forms.Button raiseButton;
-        private System.Windows.Forms.ProgressBar pbTimer;
+        private System.Windows.Forms.ProgressBar timerProgressBar;
         private System.Windows.Forms.TextBox playerChipsTextBox;
         private System.Windows.Forms.Button bAdd;
         private System.Windows.Forms.TextBox tbAdd;
