@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace Poker
+﻿namespace Poker
 {
+    using System.Windows.Forms;
+
     public class Bot
     {
         private Panel botPanel;
@@ -13,9 +13,5 @@ namespace Poker
         private bool folded;
         private int call;
         private int raise;
-
-
-
-
     }
 }

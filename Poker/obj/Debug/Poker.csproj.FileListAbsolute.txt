@@ -19,3 +19,6 @@ C:\Users\asus\Documents\GitHub\Teamwork-Project.git\trunk\Poker\obj\Debug\Poker.
 C:\Users\asus\Documents\GitHub\Teamwork-Project.git\trunk\Poker\obj\Debug\Poker.Form1.resources
 C:\Users\asus\Documents\GitHub\Teamwork-Project.git\trunk\Poker\obj\Debug\Poker.Properties.Resources.resources
 C:\Users\asus\Documents\GitHub\Teamwork-Project.git\trunk\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\bin\Debug\Poker.exe.config
+C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\obj\Debug\Poker.exe
+C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\obj\Debug\Poker.pdb
