@@ -110,11 +110,9 @@
             this.timerProgressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.timerProgressBar.BackColor = System.Drawing.SystemColors.Control;
             this.timerProgressBar.Location = new System.Drawing.Point(335, 631);
-            this.timerProgressBar.Maximum = 1000;
             this.timerProgressBar.Name = "timerProgressBar";
             this.timerProgressBar.Size = new System.Drawing.Size(667, 23);
             this.timerProgressBar.TabIndex = 5;
-            this.timerProgressBar.Value = 1000;
             // 
             // playerChipsTextBox
             // 

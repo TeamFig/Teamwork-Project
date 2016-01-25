@@ -1,17 +1,58 @@
-﻿namespace Poker
-{
-    using System.Windows.Forms;
+﻿using System.Collections.Generic;
 
-    public class Bot
+namespace Poker
+{
+    using System;
+    using System.Windows.Forms;
+    using Interfaces;
+
+    public class Bot : Competitor
     {
-        private Panel botPanel;
+        #region Fields
+        private Panel competitorPanel;
         private int chipsCount;
         private double power;
         private double type;
-        private bool turn;
+        private bool onTurn;
         private bool foldedTurn;
-        private bool folded;
+        private bool isFolded;
         private int call;
         private int raise;
+        #endregion
+
+        public Bot()
+            :base()
+        {
+            
+        }
+
+        public Bot(
+            Panel botPanel,
+            int chipsCount,
+            double power,
+            double type,
+            bool onTurn,
+            bool foldedTurn,
+            bool isFolded,
+            int botCall,
+            int botRaise,
+            ICollection<ICard> hand)
+            :base(
+                 botPanel,
+                 chipsCount,
+                 power,
+                 type,
+                 onTurn,
+                 foldedTurn,
+                 isFolded,
+                 botCall,
+                 botRaise,
+                 hand)
+        {
+
+        }
+        #region Properties
+        #endregion
+
     }
 }
