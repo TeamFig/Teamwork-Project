@@ -1,4 +1,6 @@
-﻿namespace Poker
+﻿using Poker.Interfaces;
+
+namespace Poker
 {
     using System;
     using System.Drawing;

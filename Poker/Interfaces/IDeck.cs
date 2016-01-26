@@ -1,6 +1,5 @@
-﻿namespace Poker
+﻿namespace Poker.Interfaces
 {
-    using Interfaces;
     using System.Collections.Generic;
 
     public interface IDeck
