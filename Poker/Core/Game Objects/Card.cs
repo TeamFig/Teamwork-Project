@@ -1,4 +1,4 @@
-﻿namespace Poker
+﻿namespace Poker.Core.Game_Objects
 {
     using System;
     using System.Windows.Forms;

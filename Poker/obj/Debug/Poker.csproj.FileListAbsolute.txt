@@ -39,3 +39,6 @@ C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Pok
 C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
 C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\bin\Debug\Poker.exe
 C:\Users\Oriya\Desktop\SoftUni\Fundamentals\HighQualityCode\Teamwork-Project\Poker\bin\Debug\Poker.pdb
+C:\Users\Admin\Desktop\Poker\bin\Debug\Poker.exe.config
+C:\Users\Admin\Desktop\Poker\obj\Debug\Poker.exe
+C:\Users\Admin\Desktop\Poker\obj\Debug\Poker.pdb

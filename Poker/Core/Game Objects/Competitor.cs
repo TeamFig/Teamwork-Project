@@ -1,11 +1,14 @@
-﻿namespace Poker
-{
-    using Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Windows.Forms;
+﻿using Poker.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
+namespace Poker.Core.Game_Objects
+{
     public class Competitor : ICompetitor
     {
         #region Fields
@@ -15,6 +18,7 @@
         private const int DefaultPanelHeight = 150;
         private const bool DefaultPanelVisibility = false;
         private static readonly Color DefaultPanelBackColor = Color.DarkBlue;
+
         protected ICollection<ICard> hand;
         protected Panel competitorPanel;
         protected int chipsCount;
@@ -26,8 +30,6 @@
         protected int call;
         protected int raise;
         #endregion
-
-                                //this.bot1.CompetitorPanel.Location = new Point(card.CardPictureBox.Left - 10, card.CardPictureBox.Top - 10);
         protected Competitor()
             : this(
                   new Panel()
@@ -38,6 +40,22 @@
                       BackColor = DefaultPanelBackColor
                   },
                   DefaultChipsCount, 0D, 0D, false, false, false, 0, 0, new List<ICard>())
+        {
+
+        }
+
+        protected Competitor(Panel competitorPanel)
+            : this(
+                competitorPanel,
+                DefaultChipsCount,
+                0D,
+                0D,
+                false,
+                false,
+                false,
+                0,
+                0,
+                new List<ICard>())
         {
             
         }
@@ -51,7 +69,7 @@
             bool foldedTurn,
             bool isFolded,
             int competitorCall,
-            int competitorRaise, 
+            int competitorRaise,
             ICollection<ICard> hand)
         {
             this.CompetitorPanel = competitorPanel;
@@ -65,7 +83,6 @@
             this.CompetitorRaise = competitorRaise;
             this.Hand = hand;
         }
-
         #region Properties
         public Panel CompetitorPanel
         {
@@ -209,7 +226,7 @@
             }
         }
 
-        public ICollection<ICard> Hand
+        public ICollection<ICard> Hand // TODO: Must make it fixed array
         {
             get { return this.hand; }
             set { this.hand = value; }
@@ -217,4 +234,5 @@
 
         #endregion
     }
+
 }

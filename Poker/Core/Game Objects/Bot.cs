@@ -1,27 +1,24 @@
-﻿namespace Poker
+﻿namespace Poker.Core.Game_Objects
 {
-    using System.Collections.Generic;
     using System.Windows.Forms;
     using Interfaces;
+    using System.Collections.Generic;
+
 
     public class Bot : Competitor
     {
-        #region Fields
-        private Panel competitorPanel;
-        private int chipsCount;
-        private double power;
-        private double type;
-        private bool onTurn;
-        private bool foldedTurn;
-        private bool isFolded;
-        private int call;
-        private int raise;
-        #endregion
 
         public Bot()
             :base()
         {
             
+        }
+
+        public Bot(Panel botPanel)
+            : base(botPanel)
+        {
+            
+
         }
 
         public Bot(
@@ -49,8 +46,8 @@
         {
 
         }
-
         #region Properties
         #endregion
+
     }
 }

@@ -1,12 +1,10 @@
-﻿using Poker.Interfaces;
-
-namespace Poker
+﻿namespace Poker.Factories
 {
     using System;
     using System.Drawing;
     using System.Linq;
-
-    public class DeckCreator
+    using Interfaces;
+    public class DeckCreator : IDeckCreator
     {
         private readonly int DeckCardsCount;
 

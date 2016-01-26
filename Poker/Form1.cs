@@ -114,7 +114,6 @@ namespace Poker
         private int i;
         private int bigBlind = 500;
         private int smallBlind = 250;
-        private int up = 10000000;
         private int turnCount = 0;
         private IDeck cardsDeck;
         private DeckCreator deckCreator;
@@ -161,7 +160,7 @@ namespace Poker
             this.timerProgressBar.Maximum = PlayerTurnTimeInSeconds * 1000;
             this.timerProgressBar.Value = PlayerTurnTimeInSeconds * 1000;
             this.timer.Tick += this.timer_Tick;
-            this.updates.Interval = 10000;
+            this.updates.Interval = 100;
             this.updates.Tick += this.Update_Tick;
             this.bigBlindTextBox.Visible = false;
             this.smallBlindTextBox.Visible = false;
@@ -184,7 +183,7 @@ namespace Poker
             this.checkButton.Enabled = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            bool check = false;
+            //bool check = false;
 
             //Bitmap cardBackImage = new Bitmap("Assets\\Back\\Back.png");
 
@@ -633,7 +632,6 @@ namespace Poker
                     //MessageBox.Show("Player's Turn");
                     this.timerProgressBar.Visible = true;
                     this.timerProgressBar.Value = PlayerTurnTimeInSeconds * 1000;
-                    this.up = 10000000;
                     this.timer.Start();
                     this.raiseButton.Enabled = true;
                     this.callButton.Enabled = true;
@@ -2213,7 +2211,7 @@ namespace Poker
                 }
                 this.potTextBox.Text = "0";
                 playerStatus.Text = "";
-                /*await*/ PrepareForGame();
+                await PrepareForGame();
                 await Turns();
             }
         }
@@ -2473,7 +2471,6 @@ namespace Poker
             this.sorted.Current = 0;
             this.sorted.Power = 0;
             this.potTextBox.Text = "0";
-            this.up = 10000000;
             this.turnCount = 0;
             this.playerStatus.Text = string.Empty;
             this.bot1Status.Text = string.Empty;
@@ -2509,7 +2506,7 @@ namespace Poker
                 this.cardsPictureBoxes[os].Invalidate();
                 this.cardsPictureBoxes[os].Visible = false;
             }
-            /*await */this.PrepareForGame();
+            await this.PrepareForGame();
             //await Turns();
         }
         void FixWinners()
@@ -3025,11 +3022,6 @@ namespace Poker
                 this.checkButton.Enabled = false;
             }
 
-            if (up > 0)
-            {
-                up--;
-            }
-
             if (this.playerChips >= call)
             {
                 this.callButton.Text = "Call " + call.ToString();
@@ -3271,8 +3263,8 @@ namespace Poker
         }
         private void Layout_Change(object sender, LayoutEventArgs e)
         {
-            width = this.width;
-            height = this.height;
+            Width = this.width;
+            Height = this.height;
         }
         #endregion
     }

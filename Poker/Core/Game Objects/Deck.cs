@@ -1,10 +1,9 @@
-﻿namespace Poker
+﻿namespace Poker.Core.Game_Objects
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Interfaces;
-
     public class Deck : IDeck
     {
         private IList<ICard> cardsCollection;

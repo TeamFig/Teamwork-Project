@@ -1,13 +1,19 @@
-﻿namespace Poker
+﻿namespace Poker.Core.Game_Objects
 {
-    using System.Collections.Generic;
     using System.Windows.Forms;
+    using System.Collections.Generic;
     using Interfaces;
 
     public class Player : Competitor
     {
         public Player()
             :base()
+        {
+            
+        }
+
+        public Player(Panel playerPanel)
+            :base(playerPanel)
         {
             
         }
