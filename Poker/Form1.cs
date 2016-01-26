@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Poker.Core.Game_Objects;
+using Poker.Factories;
 using Poker.Interfaces;
 
 namespace Poker
@@ -116,7 +118,7 @@ namespace Poker
         private int smallBlind = 250;
         private int turnCount = 0;
         private IDeck cardsDeck;
-        private DeckCreator deckCreator;
+        private IDeckCreator deckCreator;
         private ICompetitor[] competitorsCollection;
         #endregion
         public Form1()
