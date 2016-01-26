@@ -7,6 +7,9 @@
     using System.Linq;
     using System.Windows.Forms;
     using Interfaces;
+    using Poker.Core.Game_Objects;
+    using Poker.Factories;
+
     public class Engine : IRunnable
     {
         private const int DeckCardsCount = 52;
@@ -18,8 +21,8 @@
         private const bool DefaultCompetitorPanelVisibility = false;
         private static readonly Color DefaultCompetitorPanelBackColor = Color.DarkBlue;
         private readonly Point DefaultDeskCardsLocation = new Point(410, 265);
-        private Point[] competitorsPanelLocations;
-        private IDealer dealer;
+        private readonly Point[] competitorsPanelLocations;
+        private readonly IDealer dealer;
         private ICollection<ICompetitor> competitorsCollection;
         private IDeck cardsDeck;
         private IDeckCreator deckCreator;

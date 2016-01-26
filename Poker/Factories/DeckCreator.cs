@@ -4,6 +4,8 @@
     using System.Drawing;
     using System.Linq;
     using Interfaces;
+    using Poker.Core.Game_Objects;
+
     public class DeckCreator : IDeckCreator
     {
         private readonly int DeckCardsCount;

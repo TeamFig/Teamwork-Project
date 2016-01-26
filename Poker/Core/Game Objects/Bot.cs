@@ -4,10 +4,8 @@
     using Interfaces;
     using System.Collections.Generic;
 
-
     public class Bot : Competitor
     {
-
         public Bot()
             :base()
         {
@@ -16,8 +14,7 @@
 
         public Bot(Panel botPanel)
             : base(botPanel)
-        {
-            
+        {        
 
         }
 
@@ -46,8 +43,8 @@
         {
 
         }
+
         #region Properties
         #endregion
-
     }
 }

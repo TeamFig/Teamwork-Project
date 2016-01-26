@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Interfaces;
+
     public class Deck : IDeck
     {
         private IList<ICard> cardsCollection;
@@ -46,7 +47,7 @@
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("Cards collection cannot ne null");
+                    throw new ArgumentNullException("Cards collection cannot be null");
                 }
 
                 this.cardsCollection = value;

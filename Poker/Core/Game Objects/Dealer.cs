@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using Interfaces;
+
     public class Dealer : IDealer
     {
         private const int CardsPerCompetitor = 2;
-        private IDeck deck;
         private int competitorsCount;
 
         public Dealer(IDeck cardsDeck, int competitorsCount)
@@ -33,21 +33,11 @@
             }
         }
 
-        public IDeck Deck
-        {
-            get
-            {
-                return this.deck;
-            }
+        public IDeck Deck { get; private set; }
 
-            private set
-            {
-                this.deck = value;
-            }
-        }
         public void ShuffleCards()
         {
-            Random randomizer = new Random();
+            var randomizer = new Random();
             for (int cardIndex = this.Deck.DeckCount; cardIndex > 0; cardIndex--)
             {
                 int randomNumber = randomizer.Next(cardIndex);
