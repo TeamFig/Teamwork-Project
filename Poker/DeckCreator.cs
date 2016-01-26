@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.Linq;
+
     public class DeckCreator
     {
         private readonly int DeckCardsCount;

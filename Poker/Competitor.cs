@@ -1,14 +1,11 @@
-﻿using Poker.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker
+﻿namespace Poker
 {
+    using Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public class Competitor : ICompetitor
     {
         #region Fields
@@ -68,6 +65,7 @@ namespace Poker
             this.CompetitorRaise = competitorRaise;
             this.Hand = hand;
         }
+
         #region Properties
         public Panel CompetitorPanel
         {
@@ -219,5 +217,4 @@ namespace Poker
 
         #endregion
     }
-
 }

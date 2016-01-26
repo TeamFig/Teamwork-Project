@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Poker.Interfaces;
-
-namespace Poker
+﻿namespace Poker
 {
+    using Interfaces;
+    using System.Collections.Generic;
+
     public interface IDeck
     {
         IList<ICard> CardsCollection { get; set; }

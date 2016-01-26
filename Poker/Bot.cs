@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Poker
+﻿namespace Poker
 {
-    using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
     using Interfaces;
 
@@ -51,8 +49,8 @@ namespace Poker
         {
 
         }
+
         #region Properties
         #endregion
-
     }
 }
