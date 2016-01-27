@@ -24,7 +24,7 @@
         {
             Image[] deckCardsImagesCollection = FillImagesCollection(cardImagesLocations);
             int[] cardsImagesLoactionsOnlyNumbers = GetOnlyNumbersOfImgLocations(cardImagesLocations, charsToRemoveToGetTag);
-            Card[] cardsCollection = new Card[DeckCardsCount];
+            ICard[] cardsCollection = new ICard[DeckCardsCount];
             for (int card = 0; card < DeckCardsCount; card++)
             {
                 Image cardFrontImage = deckCardsImagesCollection[card];

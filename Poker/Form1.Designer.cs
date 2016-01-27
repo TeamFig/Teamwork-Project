@@ -67,7 +67,6 @@
             this.foldButton.TabIndex = 0;
             this.foldButton.Text = "Fold";
             this.foldButton.UseVisualStyleBackColor = true;
-            this.foldButton.Click += new System.EventHandler(this.bFold_Click);
             // 
             // checkButton
             // 
@@ -79,7 +78,6 @@
             this.checkButton.TabIndex = 2;
             this.checkButton.Text = "Check";
             this.checkButton.UseVisualStyleBackColor = true;
-            this.checkButton.Click += new System.EventHandler(this.bCheck_Click);
             // 
             // callButton
             // 
@@ -91,7 +89,6 @@
             this.callButton.TabIndex = 3;
             this.callButton.Text = "Call";
             this.callButton.UseVisualStyleBackColor = true;
-            this.callButton.Click += new System.EventHandler(this.bCall_Click);
             // 
             // raiseButton
             // 
@@ -103,7 +100,6 @@
             this.raiseButton.TabIndex = 4;
             this.raiseButton.Text = "Raise";
             this.raiseButton.UseVisualStyleBackColor = true;
-            this.raiseButton.Click += new System.EventHandler(this.bRaise_Click);
             // 
             // timerProgressBar
             // 
@@ -157,7 +153,7 @@
             // 
             this.bot4ChipsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bot4ChipsTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bot4ChipsTextBox.Location = new System.Drawing.Point(896, 81);
+            this.bot4ChipsTextBox.Location = new System.Drawing.Point(928, 81);
             this.bot4ChipsTextBox.Name = "bot4ChipsTextBox";
             this.bot4ChipsTextBox.Size = new System.Drawing.Size(123, 23);
             this.bot4ChipsTextBox.TabIndex = 10;
@@ -167,7 +163,7 @@
             // 
             this.bot3ChipsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.bot3ChipsTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bot3ChipsTextBox.Location = new System.Drawing.Point(681, 81);
+            this.bot3ChipsTextBox.Location = new System.Drawing.Point(747, 81);
             this.bot3ChipsTextBox.Name = "bot3ChipsTextBox";
             this.bot3ChipsTextBox.Size = new System.Drawing.Size(125, 23);
             this.bot3ChipsTextBox.TabIndex = 11;
@@ -260,7 +256,7 @@
             // bot4Status
             // 
             this.bot4Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bot4Status.Location = new System.Drawing.Point(896, 107);
+            this.bot4Status.Location = new System.Drawing.Point(928, 107);
             this.bot4Status.Name = "bot4Status";
             this.bot4Status.Size = new System.Drawing.Size(123, 32);
             this.bot4Status.TabIndex = 27;
@@ -268,7 +264,7 @@
             // bot3Status
             // 
             this.bot3Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.bot3Status.Location = new System.Drawing.Point(681, 107);
+            this.bot3Status.Location = new System.Drawing.Point(747, 107);
             this.bot3Status.Name = "bot3Status";
             this.bot3Status.Size = new System.Drawing.Size(125, 32);
             this.bot3Status.TabIndex = 28;

@@ -1,4 +1,7 @@
-﻿namespace Poker.Core.Game_Objects
+﻿using System.Drawing;
+using System.Windows.Forms;
+
+namespace Poker.Core.Game_Objects
 {
     using System;
     using System.Collections.Generic;
@@ -51,12 +54,20 @@
         {
             foreach (ICompetitor competitor in competitorsCollection)
             {
+                AnchorStyles anchor = competitor.CompetitorPanel.Anchor;
+                Point cardLocation = competitor.CompetitorPanel.Location;
                 for (int cardIndex = 0; cardIndex < CardsPerCompetitor; cardIndex++)
                 {
                     ICard card = this.Deck.GetCard();
+                    card.Anchor = anchor;
+                    card.Location = cardLocation;
+                    cardLocation.X += card.Width;
+                    competitor.CompetitorPanel.Controls.Add(card.CardPictureBox);
+                    card.CardPictureBox.BringToFront();
                     competitor.Hand.Add(card);
-                    // TODO: Set each card picture box variables depending on Competitors panel variables
                 }
+
+                competitor.LookCardsInHand();
             }
         }
     }

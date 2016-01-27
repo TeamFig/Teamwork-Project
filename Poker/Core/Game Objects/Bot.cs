@@ -1,4 +1,7 @@
-﻿namespace Poker.Core.Game_Objects
+﻿using System;
+using System.Linq;
+
+namespace Poker.Core.Game_Objects
 {
     using System.Windows.Forms;
     using Interfaces;
@@ -46,5 +49,10 @@
 
         #region Properties
         #endregion
+
+        public override void PlayTurn()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

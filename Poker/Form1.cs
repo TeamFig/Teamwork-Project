@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Poker.Core.Game_Objects;
+using Poker.Core;
 using Poker.Factories;
 using Poker.Interfaces;
 
@@ -27,6 +28,7 @@ namespace Poker
         private readonly Point DefaultDeskCardsLocation = new Point(410, 265);
         #region Variables
         ProgressBar asd = new ProgressBar();
+        private Engine engine;
         private ICompetitor bot1;
         private Panel playerPanel = new Panel();
         private Panel bot2Panel = new Panel();
@@ -123,6 +125,20 @@ namespace Poker
         #endregion
         public Form1()
         {
+            this.engine = new Engine();
+            this.engine.InitializeComponents();
+            this.engine.Run();
+            this.Visible = true;
+            this.Enabled = true;
+            foreach (var competitorPanel in this.engine.CompetitorsPanels)
+            {
+                this.Controls.Add(competitorPanel.Controls[0]);
+                this.Controls.Add(competitorPanel.Controls[0]);
+            }
+
+            this.MaximizeBox = true;
+            this.MinimizeBox = true;
+            this.timer.Start();
             this.competitorsCollection = new ICompetitor[TotalCompetitorsCount];
             Panel bot1Panel = new Panel();
             int bot1Chips = 10000;
@@ -139,11 +155,9 @@ namespace Poker
             this.deckCreator = new DeckCreator(DeckCardsCount);
             this.cardsDeck = this.deckCreator.CreateDeck(cardImagesLocations, charsToRemove);
             this.call = this.bigBlind;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
   
             this.InitializeComponent();
-            this.PrepareForGame();
+            //this.PrepareForGame();
             this.updates.Start();
             this.potTextBox.Enabled = false;
             this.playerChipsTextBox.Enabled = false;
@@ -169,6 +183,45 @@ namespace Poker
             this.bigBlindButton.Visible = false;
             this.smallBlindButton.Visible = false;
             this.raiseTextBox.Text = (this.bigBlind * 2).ToString();
+        }
+
+        public int RaiseAmount
+        {
+            get { return int.Parse(this.raiseTextBox.Text); }// TODO may have exception
+        }
+
+        public IDictionary<string,Control> PlayerControls
+        {
+            get
+            {
+                IDictionary<string, Control> controls = new Dictionary<string, Control>();
+                controls.Add(this.ButtonsNames[0], this.callButton);
+                controls.Add(this.ButtonsNames[1], this.raiseButton);
+                controls.Add(this.ButtonsNames[2], this.checkButton);
+                controls.Add(this.ButtonsNames[3], this.foldButton);
+                return controls;
+            }
+        }
+
+        public string[] ButtonsNames
+        {
+            get { return new string[] {"Call", "Raise", "Check", "Fold"}; }
+        }
+
+        /// <summary>
+        /// Returns/ Sets the value of the Progress bar for left time
+        /// </summary>
+        public int TimeLeftBarValue
+        {
+            get
+            {
+                return this.timerProgressBar.Value;
+            }
+
+            set
+            {
+                this.timerProgressBar.Value = value;
+            }
         }
 
         private async Task PrepareForGame()
@@ -671,7 +724,7 @@ namespace Poker
                 {
                     if (this.bot1.Onturn)
                     {
-                      //  this.FixCall(this.bot1Status, ref this.bot1.CompetitorCall, ref this.bot1.CompetitorRaise);
+                      //  this.FixCall(this.bot1Status, ref this.bot1.CallAmount, ref this.bot1.CompetitorRaise);
                        // this.Rules(2, 3, "Bot 1", ref this.bot1.Type, ref this.bot1.Power, this.bot1.FoldedTurn);
                         MessageBox.Show("Bot 1's Turn");
                        // this.AI(2, 3, ref this.bot1Chips, ref this.bot1Turn, ref this.bot1FoldedTurn, this.bot1Status, 0, this.bot1Power, this.bot1Type);
@@ -829,31 +882,35 @@ namespace Poker
 
         void Rules(int c1, int c2, string currentText, ref double current, ref double Power, bool foldedTurn)
         {
-            if (c1 == 0 && c2 == 1)
-            {
-            }
             if (!foldedTurn || c1 == 0 && c2 == 1 && !this.playerStatus.Text.Contains("Fold"))
             {
                 #region Variables
                 bool done = false, vf = false;
-                int[] Straight1 = new int[5];
-                int[] Straight = new int[7];
-                Straight[0] = this.throwenCardsTagsCollection[c1];
-                Straight[1] = this.throwenCardsTagsCollection[c2];
-                Straight1[0] = Straight[2] = this.throwenCardsTagsCollection[12];
-                Straight1[1] = Straight[3] = this.throwenCardsTagsCollection[13];
-                Straight1[2] = Straight[4] = this.throwenCardsTagsCollection[14];
-                Straight1[3] = Straight[5] = this.throwenCardsTagsCollection[15];
-                Straight1[4] = Straight[6] = this.throwenCardsTagsCollection[16];
-                var a = Straight.Where(o => o % 4 == 0).ToArray();
-                var b = Straight.Where(o => o % 4 == 1).ToArray();
-                var c = Straight.Where(o => o % 4 == 2).ToArray();
-                var d = Straight.Where(o => o % 4 == 3).ToArray();
-                var st1 = a.Select(o => o / 4).Distinct().ToArray();
-                var st2 = b.Select(o => o / 4).Distinct().ToArray();
-                var st3 = c.Select(o => o / 4).Distinct().ToArray();
-                var st4 = d.Select(o => o / 4).Distinct().ToArray();
-                Array.Sort(Straight); Array.Sort(st1); Array.Sort(st2); Array.Sort(st3); Array.Sort(st4);
+                int[] onDeskCardsTags = new int[5];
+                int[] playerAndDeskCardsTags = new int[7];
+                playerAndDeskCardsTags[0] = this.throwenCardsTagsCollection[c1];
+                playerAndDeskCardsTags[1] = this.throwenCardsTagsCollection[c2];
+                playerAndDeskCardsTags[2] = this.throwenCardsTagsCollection[12];
+                onDeskCardsTags[0] = playerAndDeskCardsTags[2];
+                playerAndDeskCardsTags[3] =  this.throwenCardsTagsCollection[13];
+                onDeskCardsTags[1] = playerAndDeskCardsTags[3];
+                onDeskCardsTags[2] = playerAndDeskCardsTags[4] = this.throwenCardsTagsCollection[14];
+                onDeskCardsTags[3] = playerAndDeskCardsTags[5] = this.throwenCardsTagsCollection[15];
+                onDeskCardsTags[4] = playerAndDeskCardsTags[6] = this.throwenCardsTagsCollection[16];
+                var clubSymbolCards = playerAndDeskCardsTags.Where(cardTag => cardTag % 4 == 0).ToArray();
+                var diamondSymbolCards = playerAndDeskCardsTags.Where(cardTag => cardTag % 4 == 1).ToArray();
+                var heartSymbolCards = playerAndDeskCardsTags.Where(cardTag => cardTag % 4 == 2).ToArray();
+                var spadeSymbolCards = playerAndDeskCardsTags.Where(cardTag => cardTag % 4 == 3).ToArray();
+                // understands the type of the card(example Ace)removes repating ones
+                var st1 = clubSymbolCards.Select(cardTag => cardTag / 4).Distinct().ToArray();
+                var st2 = diamondSymbolCards.Select(cardTag => cardTag / 4).Distinct().ToArray();
+                var st3 = heartSymbolCards.Select(cardTag => cardTag / 4).Distinct().ToArray();
+                var st4 = spadeSymbolCards.Select(cardTag => cardTag / 4).Distinct().ToArray();
+                Array.Sort(playerAndDeskCardsTags);
+                Array.Sort(st1);
+                Array.Sort(st2);
+                Array.Sort(st3);
+                Array.Sort(st4);
                 #endregion
                 for (i = 0; i < 16; i++)
                 {
@@ -872,23 +929,23 @@ namespace Poker
                         #endregion
 
                         #region Three of a kind current = 3
-                        rThreeOfAKind(ref current, ref Power, Straight);
+                        rThreeOfAKind(ref current, ref Power, playerAndDeskCardsTags);
                         #endregion
 
                         #region Straight current = 4
-                        rStraight(ref current, ref Power, Straight);
+                        rStraight(ref current, ref Power, playerAndDeskCardsTags);
                         #endregion
 
                         #region Flush current = 5 || 5.5
-                        rFlush(ref current, ref Power, ref vf, Straight1);
+                        rFlush(ref current, ref Power, ref vf, onDeskCardsTags);
                         #endregion
 
                         #region Full House current = 6
-                        rFullHouse(ref current, ref Power, ref done, Straight);
+                        rFullHouse(ref current, ref Power, ref done, playerAndDeskCardsTags);
                         #endregion
 
                         #region Four of a Kind current = 7
-                        rFourOfAKind(ref current, ref Power, Straight);
+                        rFourOfAKind(ref current, ref Power, playerAndDeskCardsTags);
                         #endregion
 
                         #region Straight Flush current = 8 || 9
@@ -2040,7 +2097,7 @@ namespace Poker
                         this.cardsPictureBoxes[j].Image = this.cardImagesCollection[j];
                         this.playerCall = 0;
                         this.playerRaise = 0;
-                        this.bot1.CompetitorCall = 0;
+                        this.bot1.CallAmount = 0;
                         this.bot1.CompetitorRaise = 0;
                         this.bot2Call = 0;
                         this.bot2Raise = 0;
@@ -2062,7 +2119,7 @@ namespace Poker
                         this.cardsPictureBoxes[j].Image = this.cardImagesCollection[j];
                         this.playerCall = 0;
                         this.playerRaise = 0;
-                        this.bot1.CompetitorCall = 0;
+                        this.bot1.CallAmount = 0;
                         this.bot1.CompetitorRaise = 0;
                         this.bot2Call = 0;
                         this.bot2Raise = 0;
@@ -2084,7 +2141,7 @@ namespace Poker
                         this.cardsPictureBoxes[j].Image = this.cardImagesCollection[j];
                         this.playerCall = 0;
                         this.playerRaise = 0;
-                        this.bot1.CompetitorCall = 0;
+                        this.bot1.CallAmount = 0;
                         this.bot1.CompetitorRaise = 0;
                         this.bot2Call = 0;
                         this.bot2Raise = 0;
@@ -2172,7 +2229,7 @@ namespace Poker
                 this.bot5Panel.Visible = false;
                 this.playerCall = 0;
                 this.playerRaise = 0;
-                this.bot1.CompetitorCall = 0;
+                this.bot1.CallAmount = 0;
                 this.bot1.CompetitorRaise = 0;
                 this.bot2Call = 0;
                 this.bot2Raise = 0;
@@ -2383,6 +2440,7 @@ namespace Poker
                 }
                 await Finish(1);
             }
+
             intsadded = false;
             #endregion
 
@@ -2446,7 +2504,7 @@ namespace Poker
             restart = false;
             raising = false;
             this.playerCall = 0;
-            this.bot1.CompetitorCall = 0;
+            this.bot1.CallAmount = 0;
             this.bot2Call = 0;
             this.bot3Call = 0;
             this.bot4Call = 0;

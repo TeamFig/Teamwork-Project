@@ -1,4 +1,7 @@
-﻿namespace Poker.Core.Game_Objects
+﻿using System;
+using System.Linq;
+
+namespace Poker.Core.Game_Objects
 {
     using System.Windows.Forms;
     using System.Collections.Generic;
@@ -15,7 +18,7 @@
         public Player(Panel playerPanel)
             :base(playerPanel)
         {
-            
+
         }
 
         public Player(
@@ -43,5 +46,20 @@
         {
 
         }
+
+        public override void LookCardsInHand()
+        {
+            this.Hand.ToList().ForEach(card => card.Reveal());
+        }
+
+        public override void PlayTurn()
+        {
+            foreach (var keyValuePair in this.CompetitorControls)
+            {
+                keyValuePair.Value.Enabled = true;
+            }
+        }
+
+
     }
 }

@@ -15,7 +15,15 @@
         bool Onturn { get; set; }
         bool FoldedTurn { get; set;}
         bool IsFolded { get; set;}
-        int CompetitorCall { get; set; }
+        int CallAmount { get; set; }
         int CompetitorRaise { get; set; }
+        void LookCardsInHand();
+        void TimeOut();
+        void Raise(int raiseAmount);
+        void Call(int callAmount);
+        void Check();
+        int GoAllIn();
+        void PlayTurn();
+        void Fold();
     }
 }

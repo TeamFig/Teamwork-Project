@@ -33,8 +33,7 @@
 
         public AnchorStyles Anchor
         {
-            private get;
-            set;
+            set { this.CardPictureBox.Anchor = value; }
         }
 
         public Point Location
@@ -92,6 +91,11 @@
         public void Reveal()
         {
             this.CardPictureBox.Image = this.CardFrontImage;
+        }
+
+        public void Hide()
+        {
+            this.CardPictureBox.Image = this.CardBackImage;
         }
     }
 }

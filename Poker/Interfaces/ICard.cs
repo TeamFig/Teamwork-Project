@@ -11,5 +11,6 @@
         Point Location { set; }
         int CardTag { get; set; }
         void Reveal();
+        void Hide();
     }
 }

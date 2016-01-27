@@ -1,4 +1,6 @@
-﻿namespace Poker.Core.Game_Objects
+﻿using System.Linq;
+
+namespace Poker.Core.Game_Objects
 {
     using Poker.Interfaces;
     using System;
@@ -13,7 +15,7 @@
         private const int DefaultChipsCount = 10000;
         private const int DefaultPanelWidth = 180;
         private const int DefaultPanelHeight = 150;
-        private const bool DefaultPanelVisibility = false;
+        private const bool DefaultPanelVisibility = true;
         private static readonly Color DefaultPanelBackColor = Color.DarkBlue;
 
         protected ICollection<ICard> hand;
@@ -27,6 +29,7 @@
         protected int call;
         protected int raise;
         #endregion
+#region Constructors
         protected Competitor()
             : this(
                   new Panel()
@@ -76,10 +79,11 @@
             this.Onturn = onTurn;
             this.FoldedTurn = foldedTurn;
             this.IsFolded = isFolded;
-            this.CompetitorCall = competitorCall;
+            this.CallAmount = competitorCall;
             this.CompetitorRaise = competitorRaise;
             this.Hand = hand;
         }
+#endregion
 
         #region Properties
         public Panel CompetitorPanel
@@ -188,7 +192,7 @@
             }
         }
 
-        public int CompetitorCall
+        public int CallAmount
         {
             get
             {
@@ -230,6 +234,48 @@
             set { this.hand = value; }
         }
 
-        #endregion
+#endregion
+        public virtual void LookCardsInHand()
+        {
+            this.Hand.ToList().ForEach(card => card.Hide());
+        }
+
+        public virtual void TimeOut()
+        {
+            this.Fold();
+            this.FoldedTurn = true;
+        }
+
+        public virtual void Raise(int raiseAmount)
+        {
+            this.ChipsCount -= raiseAmount;
+        }
+
+        public virtual void Fold()
+        {
+            this.IsFolded = true;
+        }
+
+        public virtual void Call(int callAmount)
+        {
+            this.ChipsCount -= callAmount;
+        }
+
+        public virtual void Check()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void PlayTurn()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual int GoAllIn()
+        {
+            int allChips = this.ChipsCount;
+            this.ChipsCount = 0;
+            return allChips;
+        }
     }
 }
