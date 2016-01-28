@@ -13,12 +13,16 @@ namespace Poker.Core.Game_Objects
         #region Fields
 
         private const int DefaultChipsCount = 10000;
+        private const int StartBetAmount = 0;
         private const int DefaultPanelWidth = 180;
         private const int DefaultPanelHeight = 150;
         private const bool DefaultPanelVisibility = true;
         private static readonly Color DefaultPanelBackColor = Color.DarkBlue;
 
         protected ICollection<ICard> hand;
+        protected int currentGameGivenChips;
+        protected Label currentBetAmount;
+        protected TextBox currentChipsCountTextBox;
         protected Panel competitorPanel;
         protected int chipsCount;
         protected double power;
@@ -44,7 +48,7 @@ namespace Poker.Core.Game_Objects
 
         }
 
-        protected Competitor(Panel competitorPanel)
+        protected Competitor(Panel competitorPanel, TextBox textBox, Label betLabel)
             : this(
                 competitorPanel,
                 DefaultChipsCount,
@@ -57,7 +61,10 @@ namespace Poker.Core.Game_Objects
                 0,
                 new List<ICard>())
         {
-            
+            this.currentChipsCountTextBox = textBox;
+            this.currentChipsCountTextBox.Text = ChipsCount.ToString();
+            this.currentBetAmount = betLabel;
+            this.currentBetAmount.Text = StartBetAmount.ToString();
         }
 
         protected Competitor(
@@ -86,6 +93,7 @@ namespace Poker.Core.Game_Objects
 #endregion
 
         #region Properties
+
         public Panel CompetitorPanel
         {
             get
@@ -210,6 +218,19 @@ namespace Poker.Core.Game_Objects
             }
         }
 
+        public int CurrentGameGivenChips
+        {
+            get
+            {
+                return this.currentGameGivenChips;
+            }
+
+            set
+            {
+                this.currentGameGivenChips = value;
+            }
+        }
+
         public int CompetitorRaise
         {
             get
@@ -234,7 +255,12 @@ namespace Poker.Core.Game_Objects
             set { this.hand = value; }
         }
 
-#endregion
+        public virtual int RaiseAmount
+        {
+            get { return this.CompetitorRaise; }
+        }
+
+        #endregion
         public virtual void LookCardsInHand()
         {
             this.Hand.ToList().ForEach(card => card.Hide());
@@ -249,21 +275,26 @@ namespace Poker.Core.Game_Objects
         public virtual void Raise(int raiseAmount)
         {
             this.ChipsCount -= raiseAmount;
+            this.currentBetAmount.Text =raiseAmount.ToString();
+            this.currentChipsCountTextBox.Text = this.ChipsCount.ToString();
         }
 
         public virtual void Fold()
         {
             this.IsFolded = true;
+            this.Hand.ToList().ForEach(card=> card.CardPictureBox.Visible = false);
         }
 
         public virtual void Call(int callAmount)
         {
             this.ChipsCount -= callAmount;
+            this.currentBetAmount.Text = callAmount.ToString();
+            this.currentChipsCountTextBox.Text = this.ChipsCount.ToString();
         }
 
         public virtual void Check()
         {
-            throw new NotImplementedException();
+            
         }
 
         public virtual void PlayTurn()

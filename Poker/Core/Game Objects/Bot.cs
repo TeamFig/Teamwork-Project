@@ -15,8 +15,8 @@ namespace Poker.Core.Game_Objects
             
         }
 
-        public Bot(Panel botPanel)
-            : base(botPanel)
+        public Bot(Panel botPanel, TextBox textBox, Label label)
+            : base(botPanel, textBox, label)
         {        
 
         }

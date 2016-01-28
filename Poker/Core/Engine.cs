@@ -26,7 +26,12 @@
         private readonly IDealer dealer;
         private readonly Timer leftTimeTimer;
         private int callAmount;
+        private int currentBet;
+        private IBlindField smallBlindField;
+        private IBlindField bigBlindField;
+        private Pot potField;
         private ICompetitor competitorOnTurn;
+        private IList<Control> competitorsStatusFields; 
         private IDictionary<string, Control> competitorControls;
         private int playingCompetitorsCount;
         private ICollection<ICompetitor> competitorsCollection;
@@ -37,14 +42,21 @@
 
         public Engine()
         {
-            this.mainWindow = new Form1();
+            this.MainWindow = new Form1();
+            this.smallBlindField = new SmallBlind(
+                this.MainWindow.SmallBlindButton,
+                this.MainWindow.SmallBlindTextBox);
+            this.bigBlindField = new BigBlind(
+                this.MainWindow.BigBlindButton, 
+                this.MainWindow.BigBlindTextBox);
+            this.currentBet = smallBlindField.BlindAmount;
+            this.potField = new Pot(this.MainWindow.PoTtTextBox);
             this.playingCompetitorsCount = TotalCompetitorsCount;
             this.leftTimeTimer = new Timer()
             {
                 // tick every 1000 ms (1 sec)
                 Interval = 1000
             };
-            this.mainWindow.
             this.CompetitorControls = this.mainWindow.PlayerControls;
             string[] controlsNames = this.mainWindow.ButtonsNames;
             this.CompetitorControls[controlsNames[0]].Click += this.CallButton_OnClick;
@@ -75,19 +87,19 @@
             }
         }
 
-        public int PlayerRaiseAmount
-        {
-            get
-            {
-                int raiseAmount = this.mainWindow.RaiseAmount;
-                if (raiseAmount < 0)
-                {
-                    throw new ArgumentException("Raise amount is not enough or incorrect"); //TODO:better checking 
-                }
+        //public int PlayerRaiseAmount
+        //{
+        //    get
+        //    {
+        //        int raiseAmount = this.mainWindow.RaiseAmount;
+        //        if (raiseAmount < 0)
+        //        {
+        //            throw new ArgumentException("Raise amount is not enough or incorrect"); //TODO:better checking 
+        //        }
 
-                return raiseAmount;
-            }
-        }
+        //        return raiseAmount;
+        //    }
+        //}
 
         public IEnumerable<Panel> CompetitorsPanels
         {
@@ -96,7 +108,13 @@
                 return this.CompetitorsCollection
                     .Select(competitor => competitor.CompetitorPanel);
             }
-        } 
+        }
+
+        public Form1 MainWindow
+        {
+            get { return this.mainWindow; }
+            set { this.mainWindow = value; }
+        }
 
         private ICollection<ICompetitor> CompetitorsCollection
         {
@@ -116,23 +134,30 @@
         {
             this.dealer.ShuffleCards();
             this.dealer.ThrowCards(this.CompetitorsCollection);
+            AddControls();
             ExecuteTurns();
 
         }
 
         private void ExecuteTurns()
         {
-
-            foreach (var competitor in CompetitorsCollection)
-            {
-                this.mainWindow.TimeLeftBarValue = CompetitorTurnTimeInSeconds*1000;
-                this.competitorOnTurn = competitor;
-                competitor.Onturn = true;
-                competitor.
-                this.leftTimeTimer.Start();
-
-            }
-
+            this.mainWindow.TimeLeftBarValue = CompetitorTurnTimeInSeconds * 1000;
+            this.competitorOnTurn = this.CompetitorsCollection.ToList()[0];
+            this.competitorOnTurn.Onturn = true;
+            string[] controlsNames = this.mainWindow.ButtonsNames;
+            this.CompetitorControls[controlsNames[0]].Enabled = true;
+            this.CompetitorControls[controlsNames[1]].Enabled = true;
+            this.CompetitorControls[controlsNames[2]].Enabled = true;
+            this.CompetitorControls[controlsNames[3]].Enabled = true;
+            this.CompetitorControls[controlsNames[4]].Visible = true;
+            this.leftTimeTimer.Start();
+            //for (int competitorIndex = 1; competitorIndex < 0; competitorIndex++)
+            //{
+            //    this.mainWindow.TimeLeftBarValue = CompetitorTurnTimeInSeconds * 1000;
+            //    this.competitorOnTurn = this.CompetitorsCollection.ToList()[competitorIndex];
+            //    this.competitorOnTurn.Onturn = true;
+            //    this.leftTimeTimer.Start();
+            //}
         }
 
         public void InitializeComponents()
@@ -140,29 +165,64 @@
             this.CreateCompetitors();
         }
 
+        private void AddControls()
+        {
+            this.competitorsCollection.ToList().ForEach(competitor=> this.MainWindow.Controls.Add(competitor.CompetitorPanel.Controls[0]));
+            this.competitorsCollection.ToList().ForEach(competitor => this.MainWindow.Controls.Add(competitor.CompetitorPanel.Controls[0]));
+        }
+
         private void RaiseButton_OnClick(object sender, EventArgs e)
         {
-            this.CompetitorsCollection.ToList()[0].Raise(this.PlayerRaiseAmount);
+            var player = this.CompetitorsCollection.ToList()[0];
+            player.Raise(player.RaiseAmount);
+            this.currentBet += player.RaiseAmount;
+            this.potField.RaisePotAmount(player.RaiseAmount);
+            this.DisableButtons();
+            this.PlayNonPlayers();
         }
 
         private void CallButton_OnClick(object sender, EventArgs e)
         {
-            this.CompetitorsCollection.ToList()[0].Call();
+             
+            ICompetitor player = this.CompetitorsCollection.ToList()[0];
+            this.callAmount = this.currentBet - player.CurrentGameGivenChips;
+            player.Call(callAmount);
+            this.potField.RaisePotAmount(this.callAmount);
+            this.DisableButtons();
+            this.PlayNonPlayers();
+            // TODO : Magical number
         }
 
         private void CheckButton_OnClick(object sender, EventArgs e)
         {
             this.CompetitorsCollection.ToList()[0].Check();
+            this.DisableButtons();
+            this.PlayNonPlayers();
+        }
+
+        private void DisableButtons()
+        {
+            string[] buttonsNames = this.MainWindow.ButtonsNames;
+            for (int controlIndex = 0; controlIndex < buttonsNames.Length-1; controlIndex++)
+            {
+                this.CompetitorControls[buttonsNames[controlIndex]].Enabled = false;
+            }
+
+            this.CompetitorControls[buttonsNames[buttonsNames.Length - 1]].Visible = false;
         }
 
         private void FoldButton_OnClick(object sender, EventArgs e)
         {
             this.CompetitorsCollection.ToList()[0].Fold();
+            this.playingCompetitorsCount--;
+            DisableButtons();
+            PlayNonPlayers();
         }
 
         private void CreateCompetitors()
         {
             int playerIndex;
+            this.competitorsStatusFields = this.MainWindow.CompetitorsStatusFieldsCollection;
             for (playerIndex = 0; playerIndex < TotalPlayersCount; playerIndex++)
             {
                 Panel playerPanel = new Panel()
@@ -175,11 +235,14 @@
                     Anchor = this.competitorsPanelAnchors[playerIndex]
                 };
                 IDictionary<string, Control> playerControls = this.mainWindow.PlayerControls;
-                ICompetitor player = new Player(playerPanel, playerControls);
+                TextBox playerTextBox = (TextBox)this.competitorsStatusFields[playerIndex];
+                Label playerLabel = (Label) this.competitorsStatusFields[playerIndex + 1];
+                TextBox playerRaiseTextBox = this.MainWindow.PlayerRaiseTextBox;
+                ICompetitor player = new Player(playerPanel,playerTextBox, playerLabel, playerRaiseTextBox);
                 this.CompetitorsCollection.Add(player);
             }
 
-            for (int botIndex = playerIndex; botIndex < TotalCompetitorsCount; botIndex++)
+            for (int botIndex = playerIndex, controlIndex = playerIndex+1; botIndex < TotalCompetitorsCount; botIndex++)
             {
                 Panel botPanel = new Panel()
                 {
@@ -190,9 +253,36 @@
                     Location = this.competitorsPanelLocations[botIndex],
                     Anchor = this.competitorsPanelAnchors[botIndex]
                 };
-                ICompetitor bot = new Bot(botPanel);
+                TextBox botTextBox =(TextBox) this.competitorsStatusFields[controlIndex];
+                controlIndex++;
+                Label botLabel = (Label) this.competitorsStatusFields[controlIndex];
+                controlIndex++;
+                ICompetitor bot = new Bot(botPanel, botTextBox, botLabel);
                 this.CompetitorsCollection.Add(bot);
             }
+        }
+
+        private void TurnEnd()
+        {
+            this.competitorOnTurn.TimeOut();
+            this.DisableButtons();
+            this.PlayNonPlayers();
+        }
+
+        private void PlayNonPlayers()
+        {
+            for (int competitorIndex = 1; competitorIndex < this.CompetitorsCollection.Count; competitorIndex++)
+            {
+                MessageBox.Show("Bot " + competitorIndex + " turn.");
+                this.ActNonPlayer(this.CompetitorsCollection.ToList()[competitorIndex]);
+            }
+
+            ExecuteTurns(); //TODO: Fix here bad name
+        }
+
+        private void ActNonPlayer(ICompetitor bot)
+        {
+            bot.Call(this.currentBet - bot.CurrentGameGivenChips);
         }
 
         private void On_Tick(object sender, EventArgs e)
@@ -200,7 +290,7 @@
             int timeLeft = this.mainWindow.TimeLeftBarValue;
             if (timeLeft <= 0)
             {
-                this.competitorOnTurn.TimeOut();
+                this.TurnEnd();
                 //await Turns(); TODO:Fix here
             }
             else

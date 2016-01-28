@@ -1,4 +1,6 @@
-﻿namespace Poker
+﻿using Poker.Core;
+
+namespace Poker
 {
     using System;
     using System.Windows.Forms;
@@ -13,7 +15,10 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Engine engine = new Engine();
+            engine.InitializeComponents();
+            engine.Run();
+           Application.Run(engine.MainWindow);
         }
     }
 }

@@ -28,7 +28,6 @@ namespace Poker
         private readonly Point DefaultDeskCardsLocation = new Point(410, 265);
         #region Variables
         ProgressBar asd = new ProgressBar();
-        private Engine engine;
         private ICompetitor bot1;
         private Panel playerPanel = new Panel();
         private Panel bot2Panel = new Panel();
@@ -98,18 +97,6 @@ namespace Poker
         private bool restart;
         private bool raising;
         Poker.Type sorted;
-        private string[] cardImagesLocations;
-        /*string[] cardImagesLocations ={
-                   "Assets\\Cards\\33.png","Assets\\Cards\\22.png",
-                    "Assets\\Cards\\29.png","Assets\\Cards\\21.png",
-                    "Assets\\Cards\\36.png","Assets\\Cards\\17.png",
-                    "Assets\\Cards\\40.png","Assets\\Cards\\16.png",
-                    "Assets\\Cards\\5.png","Assets\\Cards\\47.png",
-                    "Assets\\Cards\\37.png","Assets\\Cards\\13.png",
-                    
-                    "Assets\\Cards\\12.png",
-                    "Assets\\Cards\\8.png","Assets\\Cards\\18.png",
-                    "Assets\\Cards\\15.png","Assets\\Cards\\27.png"};*/
         private readonly int[]  throwenCardsTagsCollection = new int[17];
         private readonly Image[] cardImagesCollection = new Image[52];
         private readonly PictureBox[] cardsPictureBoxes = new PictureBox[52];
@@ -119,27 +106,14 @@ namespace Poker
         private int bigBlind = 500;
         private int smallBlind = 250;
         private int turnCount = 0;
-        private IDeck cardsDeck;
-        private IDeckCreator deckCreator;
-        private ICompetitor[] competitorsCollection;
         #endregion
         public Form1()
         {
-            this.engine = new Engine();
-            this.engine.InitializeComponents();
-            this.engine.Run();
             this.Visible = true;
             this.Enabled = true;
-            foreach (var competitorPanel in this.engine.CompetitorsPanels)
-            {
-                this.Controls.Add(competitorPanel.Controls[0]);
-                this.Controls.Add(competitorPanel.Controls[0]);
-            }
 
             this.MaximizeBox = true;
             this.MinimizeBox = true;
-            this.timer.Start();
-            this.competitorsCollection = new ICompetitor[TotalCompetitorsCount];
             Panel bot1Panel = new Panel();
             int bot1Chips = 10000;
             double bot1Power = 0;
@@ -150,22 +124,14 @@ namespace Poker
             int bot1Call = 0;
             int bot1Raise = 0;
             this.bot1 = new Bot(bot1Panel, bot1Chips, bot1Power, bot1Type, bot1Turn, bot1FoldedTurn, bot1Folded, bot1Call, bot1Raise, new List<ICard>());        
-            string[] cardImagesLocations = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
-            string [] charsToRemove = { "Assets\\Cards\\", ".png" };
-            this.deckCreator = new DeckCreator(DeckCardsCount);
-            this.cardsDeck = this.deckCreator.CreateDeck(cardImagesLocations, charsToRemove);
+            //string[] cardImagesLocations = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
+            //string [] charsToRemove = { "Assets\\Cards\\", ".png" };
+            //this.deckCreator = new DeckCreator(DeckCardsCount);
+            //this.cardsDeck = this.deckCreator.CreateDeck(cardImagesLocations, charsToRemove);
             this.call = this.bigBlind;
   
             this.InitializeComponent();
             //this.PrepareForGame();
-            this.updates.Start();
-            this.potTextBox.Enabled = false;
-            this.playerChipsTextBox.Enabled = false;
-            this.bot1ChipsTextBox.Enabled = false;
-            this.bot2ChipsTextBox.Enabled = false;
-            this.bot3ChipsTextBox.Enabled = false;
-            this.bot4ChipsTextBox.Enabled = false;
-            this.bot5ChipsTextBox.Enabled = false;
             this.playerChipsTextBox.Text = "Chips : " + this.playerChips;
             this.bot1ChipsTextBox.Text = "Chips : " + this.bot1.ChipsCount;
             this.bot2ChipsTextBox.Text = "Chips : " + this.bot2Chips;
@@ -175,19 +141,18 @@ namespace Poker
             this.timer.Interval = 1000;
             this.timerProgressBar.Maximum = PlayerTurnTimeInSeconds * 1000;
             this.timerProgressBar.Value = PlayerTurnTimeInSeconds * 1000;
-            this.timer.Tick += this.timer_Tick;
             this.updates.Interval = 100;
-            this.updates.Tick += this.Update_Tick;
-            this.bigBlindTextBox.Visible = false;
-            this.smallBlindTextBox.Visible = false;
-            this.bigBlindButton.Visible = false;
-            this.smallBlindButton.Visible = false;
             this.raiseTextBox.Text = (this.bigBlind * 2).ToString();
         }
 
-        public int RaiseAmount
+        //public int RaiseAmount
+        //{
+        //    get { return int.Parse(this.raiseTextBox.Text); }// TODO may have exception
+        //}
+
+        public TextBox PlayerRaiseTextBox
         {
-            get { return int.Parse(this.raiseTextBox.Text); }// TODO may have exception
+            get { return this.raiseTextBox; }
         }
 
         public IDictionary<string,Control> PlayerControls
@@ -199,13 +164,14 @@ namespace Poker
                 controls.Add(this.ButtonsNames[1], this.raiseButton);
                 controls.Add(this.ButtonsNames[2], this.checkButton);
                 controls.Add(this.ButtonsNames[3], this.foldButton);
+                controls.Add(this.ButtonsNames[4], this.timerProgressBar);
                 return controls;
             }
         }
 
         public string[] ButtonsNames
         {
-            get { return new string[] {"Call", "Raise", "Check", "Fold"}; }
+            get { return new string[] {"Call", "Raise", "Check", "Fold", "Progress bar"}; }
         }
 
         /// <summary>
@@ -223,6 +189,58 @@ namespace Poker
                 this.timerProgressBar.Value = value;
             }
         }
+
+        public Button SmallBlindButton
+        {
+            get { return this.smallBlindButton; }
+        }
+
+        public Button BigBlindButton
+        {
+            get { return this.bigBlindButton; }
+        }
+
+        public TextBox SmallBlindTextBox
+        {
+            get { return this.smallBlindTextBox; }
+        }
+
+        public TextBox BigBlindTextBox
+        {
+            get { return this.bigBlindTextBox; }
+        }
+
+        public TextBox PoTtTextBox
+        {
+            get { return this.potTextBox; }
+        }
+
+        public IList<Control> CompetitorsStatusFieldsCollection
+        {
+            get
+            {
+                IList<Control> controls = new List<Control>();
+                controls.Add(this.playerChipsTextBox);
+                controls.Add(this.playerStatus);
+
+                controls.Add(this.bot1ChipsTextBox);
+                controls.Add(this.bot1Status);
+
+                controls.Add(this.bot2ChipsTextBox);
+                controls.Add(this.bot2Status);
+
+                controls.Add(this.bot3ChipsTextBox);
+                controls.Add(this.bot3Status);
+
+                controls.Add(this.bot4ChipsTextBox);
+                controls.Add(this.bot4Status);
+
+                controls.Add(this.bot5ChipsTextBox);
+                controls.Add(this.bot5Status);
+                return controls;
+
+            }
+        } 
 
         private async Task PrepareForGame()
         { 
@@ -633,47 +651,47 @@ namespace Poker
                 (AnchorStyles.Bottom | AnchorStyles.Right)
             };
              await Task.Delay(10);
-            this.cardsDeck.Shuffle();
+            ////this.cardsDeck.Shuffle();
             ICompetitor player = new Player();
              int playerCardHorizontalCord = horizontalCoordinatesCollection[0];
              int playerCardVerticalCord = verticalCoordinatesCollection[0];
              for (int j = 0; j < 2; j++)
              {
-                ICard playerCard = this.cardsDeck.GetCard();
-                playerCard.Anchor = anchorsCollection[0];
-                playerCard.Location = new Point(playerCardHorizontalCord, playerCardVerticalCord);
-                playerCardHorizontalCord += playerCard.Width;
-                this.Controls.Add(playerCard.CardPictureBox);
-                playerCard.Reveal();
-                player.Hand.Add(playerCard);
-                player.PanelLocation = new Point(playerCard.CardPictureBox.Left - 10, playerCard.CardPictureBox.Top - 10);
-                this.Controls.Add(player.CompetitorPanel);
-                this.foldedPlayers--;
-                competitorsCollection[0] = player;
+                //ICard playerCard = this.cardsDeck.GetCard();
+                //playerCard.Anchor = anchorsCollection[0];
+                //playerCard.Location = new Point(playerCardHorizontalCord, playerCardVerticalCord);
+                //playerCardHorizontalCord += playerCard.Width;
+                //this.Controls.Add(playerCard.CardPictureBox);
+                //playerCard.Reveal();
+                //player.Hand.Add(playerCard);
+                //player.PanelLocation = new Point(playerCard.CardPictureBox.Left - 10, playerCard.CardPictureBox.Top - 10);
+                //this.Controls.Add(player.CompetitorPanel);
+                //this.foldedPlayers--;
+                //competitorsCollection[0] = player;
             }
             
 
-            for (int competitor = 1; competitor < this.competitorsCollection.Length; competitor++)
-            {
-                ICompetitor bot = new Bot();
+            //for (int competitor = 1; competitor < this.competitorsCollection.Length; competitor++)
+            //{
+            //    ICompetitor bot = new Bot();
 
-                int horizontal = horizontalCoordinatesCollection[competitor];
-                int vertical = verticalCoordinatesCollection[competitor];
-                for (int i = 0; i < CardsPerCompetitor; i++)
-                {
-                    ICard card = this.cardsDeck.GetCard();
-                    card.Anchor = anchorsCollection[competitor];
-                    card.Location = new Point(horizontal, vertical);
-                    horizontal += card.Width;
-                    this.Controls.Add(card.CardPictureBox);
-                    bot.Hand.Add(card);
-                    bot.PanelLocation = new Point(card.CardPictureBox.Left - 10, card.CardPictureBox.Top - 10);
-                }
+            //    int horizontal = horizontalCoordinatesCollection[competitor];
+            //    int vertical = verticalCoordinatesCollection[competitor];
+            //    for (int i = 0; i < CardsPerCompetitor; i++)
+            //    {
+            //        ICard card = this.cardsDeck.GetCard();
+            //        card.Anchor = anchorsCollection[competitor];
+            //        card.Location = new Point(horizontal, vertical);
+            //        horizontal += card.Width;
+            //        this.Controls.Add(card.CardPictureBox);
+            //        bot.Hand.Add(card);
+            //        bot.PanelLocation = new Point(card.CardPictureBox.Left - 10, card.CardPictureBox.Top - 10);
+            //    }
 
-                this.Controls.Add(bot.CompetitorPanel);
-                this.foldedPlayers--;
-                competitorsCollection[competitor] = bot;
-            }
+            //    this.Controls.Add(bot.CompetitorPanel);
+            //    this.foldedPlayers--;
+            //    competitorsCollection[competitor] = bot;
+            //}
         }
 
         async Task Turns()
@@ -2820,8 +2838,19 @@ namespace Poker
             double a = Math.Round((sChips / n) / 100d, 0) * 100;
             return a;
         }
+        /// <summary>
+        /// Runs Check if call is less or equal to 0
+        /// </summary>
+        /// <param name="sChips"></param>
+        /// <param name="sTurn"></param>
+        /// <param name="sFTurn"></param>
+        /// <param name="sStatus"></param>
+        /// <param name="botPower"></param>
+        /// <param name="n"></param>
+        /// <param name="n1"></param>
         private void HP(ref int sChips, ref bool sTurn, ref bool sFTurn, Label sStatus, double botPower, int n, int n1)
         {
+            //20, 25
             Random rand = new Random();
             int rnd = rand.Next(1, 4);
             if (call <= 0)

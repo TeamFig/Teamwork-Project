@@ -5,8 +5,8 @@
 
     public static class PanelsLocationsGenerator 
     {
-       private static readonly int[] HorizontalCoordinatesCollection = new int[] {540, 15, 75, 550, 1060, 1110 };
-        private static readonly int[] VerticalCoordinatesCollection = new int[] {490, 420, 55, 15, 25, 460};
+       private static readonly int[] HorizontalCoordinatesCollection = new int[] {500, 15, 75, 530, 980, 1020 };
+        private static readonly int[] VerticalCoordinatesCollection = new int[] {530, 460, 50, 10, 25, 480};
         private static readonly AnchorStyles[] anchorsCollection =
 {
                 (AnchorStyles.Bottom),

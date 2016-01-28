@@ -15,6 +15,8 @@
         bool Onturn { get; set; }
         bool FoldedTurn { get; set;}
         bool IsFolded { get; set;}
+        int RaiseAmount { get; }
+        int CurrentGameGivenChips { get; set; }
         int CallAmount { get; set; }
         int CompetitorRaise { get; set; }
         void LookCardsInHand();

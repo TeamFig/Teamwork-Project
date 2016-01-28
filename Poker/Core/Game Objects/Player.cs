@@ -9,16 +9,17 @@ namespace Poker.Core.Game_Objects
 
     public class Player : Competitor
     {
+        private TextBox raiseTextBox;
         public Player()
             :base()
         {
             
         }
 
-        public Player(Panel playerPanel, IDictionary<string, Control> playerControls)
-            :base(playerPanel)
+        public Player(Panel playerPanel, TextBox textBox, Label label, TextBox raiseTextBox)
+            :base(playerPanel, textBox, label)
         {
-
+            this.RaiseTextBox = raiseTextBox;
         }
 
         public Player(
@@ -47,6 +48,17 @@ namespace Poker.Core.Game_Objects
 
         }
 
+        public TextBox RaiseTextBox
+        {
+            get { return this.raiseTextBox; }
+            set { this.raiseTextBox = value; }
+        }
+
+        public override int RaiseAmount
+        {
+            get { return int.Parse(this.RaiseTextBox.Text); }
+        }
+
         public override void LookCardsInHand()
         {
             this.Hand.ToList().ForEach(card => card.Reveal());
@@ -54,10 +66,10 @@ namespace Poker.Core.Game_Objects
 
         public override void PlayTurn()
         {
-            foreach (var keyValuePair in this.CompetitorControls)
-            {
-                keyValuePair.Value.Enabled = true;
-            }
+            //foreach (var keyValuePair in this.CompetitorControls)
+            //{
+            //    keyValuePair.Value.Enabled = true;
+            //}
         }
 
 
