@@ -15,7 +15,7 @@ namespace Poker.Core.Game_Objects
             
         }
 
-        public Player(Panel playerPanel)
+        public Player(Panel playerPanel, IDictionary<string, Control> playerControls)
             :base(playerPanel)
         {
 

@@ -1,8 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace Poker.Factories
+﻿namespace Poker.Factories
 {
     using System.Drawing;
+    using System.Windows.Forms;
 
     public static class PanelsLocationsGenerator 
     {
